@@ -1,0 +1,120 @@
+/* Remove a linha sublinhada padrão e define a cor branca */
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
+}
+
+
+/* Remove as bolinhas de todas as listas */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    background-color: #f59f00;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Estilo do item que tem o dropdown */
+.dropdown {
+    position: relative; /* Necessário para o submenu não sair voando */
+}
+
+/* ESCONDE O SUBMENU POR PADRÃO */
+.submenu {
+    display: none; 
+    position: absolute; /* Faz ele flutuar abaixo do link */
+    background-color: #e68a00; /* Um laranja um pouco mais escuro */
+    top: 100%; /* Brota exatamente abaixo do pai */
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Alinha os itens do submenu um embaixo do outro */
+.submenu li {
+    width: 100%;
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block; /* Faz o link ocupar a linha toda da caixinha */
+}
+
+/* MOSTRA O SUBMENU QUANDO PASSA O MOUSE NO PAI (.dropdown) */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Efeito de destaque ao passar o mouse nas opções pequenas */
+.submenu li a:hover {
+    background-color: #d47a00;
+}
+
+
+/* cadastro de clientes
+
+/* Centraliza o formulário na tela */
+.container-cadastro {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    border: 2px solid #f59f00;
+}
+
+/* O segredo para ficar um embaixo do outro */
+.form-vertical {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em coluna */
+    gap: 15px; /* Cria um espaço entre os campos */
+}
+
+.campo {
+    display: flex;
+    flex-direction: column; /* Garante que o label fique em cima do input */
+    gap: 5px;
+}
+
+/* Estilizando os campos de texto */
+input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Estilizando o botão */
+.btn-enviar {
+    background-color: #f59f00; /* O laranja do seu header */
+    
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: #d47a00; /* Escurece um pouco ao passar o mouse */
+}
+
+.form-action {
+    padding-top: 20px; /* Empurra o botão para baixo */
+    display: flex;
+    justify-content: center; /* Opcional: centraliza o botão */
+}

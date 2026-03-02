@@ -1,0 +1,140 @@
+/* Remove a linha sublinhada padrão e define a cor branca */
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
+}
+
+
+/* Remove as bolinhas de todas as listas */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    background-color: #f59f00;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Estilo do item que tem o dropdown */
+.dropdown {
+    position: relative; /* Necessário para o submenu não sair voando */
+}
+
+/* ESCONDE O SUBMENU POR PADRÃO */
+.submenu {
+    display: none; 
+    position: absolute; /* Faz ele flutuar abaixo do link */
+    background-color: #e68a00; /* Um laranja um pouco mais escuro */
+    top: 100%; /* Brota exatamente abaixo do pai */
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Alinha os itens do submenu um embaixo do outro */
+.submenu li {
+    width: 100%;
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block; /* Faz o link ocupar a linha toda da caixinha */
+}
+
+/* MOSTRA O SUBMENU QUANDO PASSA O MOUSE NO PAI (.dropdown) */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Efeito de destaque ao passar o mouse nas opções pequenas */
+.submenu li a:hover {
+    background-color: #d47a00;
+}
+
+/* cadastro de produtos
+
+/* Container que cria a caixa com borda laranja (igual à imagem) */
+.container-cadastro {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    
+    /* Borda laranja fina e arredondada da imagem */
+    border: 1.5px solid #f59f00; 
+    border-radius: 8px;
+    
+    /* Sombra suave para dar o efeito de elevação */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Título igual à imagem */
+.container-cadastro h2 {
+    text-align: left; /* Na imagem o título costuma ficar à esquerda */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+
+}
+
+/* Alinhamento vertical (um embaixo do outro) */
+.form-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Espaço entre os blocos */
+}
+
+/* Bloco de Label + Input */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Estilo do Texto (Label) acima do campo */
+.campo label {
+    font-size: 16px;
+    color: #333;
+    gap: 6px;
+    margin-top: 16px;
+}
+
+/* Estilo da Caixa de Digitação (Input) */
+.campo input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+/* Botão centralizado e simples como na imagem */
+.form-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-action button {
+    padding: 8px 25px;
+    border: 1px solid #767676;
+    background-color: #efefef;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.form-action button:hover {
+    background-color: #e5e5e5;
+}

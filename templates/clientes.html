@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='clientes.css') }}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="header">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+
+        <li class="dropdown">
+            <a href="">Cadastro </a>
+            <ul class="submenu">
+                <li><a href="{{ url_for('clientes') }}">clientes</a></li>
+                <li><a href="{{ url_for('produtos') }}">produtos</a></li>
+            </ul>
+        </li>
+
+                <li class="dropdown">
+            <a href="">Produtos </a>
+            <ul class="submenu">
+                <li><a href="">Venda</a></li>
+                <li><a href="">Aluguel</a></li>
+            </ul>
+        </li>
+
+        <li><a href="">dashboard</a></li>
+
+    </div>
+
+    <div class="container-cadastro">
+    <h2>Cadastro de Clientes</h2>
+    <form action="/salvar_cliente" method="POST">
+        
+        
+        <div class="campo">
+            <label>Nome:</label>
+            <input type="text" name="nome_cliente" placeholder="Digite o nome..." required>
+        </div>
+
+        <div class="campo">
+            <label>E-mail:</label>
+            <input type="email" name="email_cliente" placeholder="exemplo@email.com" required>
+        </div>
+
+
+        <div class="campo">
+            <label>Telefone:</label>
+            <input type="tel" name="telefone_cliente" placeholder="(00) 00000-0000" required>
+        </div>
+
+        <div class="campo">
+            <label>endereço:</label>
+            <input type="text" name="endereco_cliente" placeholder="Digite o endereço completo..." required>
+        </div>
+
+        <div class="campo">
+            <label>RG:</label>
+            <input type="text" name="rg_cliente" placeholder="00.000.000-0" required>
+        </div>
+
+        <div class="campo">
+            <label>cpf:</label>
+            <input type="text" name="cpf_cliente" placeholder="000.000.000-00" required>
+        </div>
+
+
+        <div class="form-action">
+        <button type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='clientes.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+/* Remove a linha sublinhada padrão e define a cor branca */
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
+}
+
+/* Efeito de passar o mouse (Hover) */
+#header li a:hover {
+    opacity: 0.7; /* Ele fica levemente transparente ao passar o mouse */
+}
+/* O "Pai" que organiza a fila */
+.container-objetivos {
+    display: flex;           /* Coloca um ao lado do outro */
+    justify-content: center; /* Centraliza o grupo na página */
+    gap: 20px;              /* Cria o espaço entre as caixas (substitui o margin-left) */
+    margin-top: 150px;       /* Define a altura de todos ao mesmo tempo */
+}
+
+/* O estilo comum para as três caixas */
+#missao, #vissao, #valores {
+    background-color: #1C75DB;
+    padding: 20px;           /* Use px para um preenchimento mais estável */
+    width: 190px;
+    border: solid 6px #40A13A;
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    box-sizing: border-box;  /* Garante que a borda não aumente o tamanho da caixa */
+}
+
+
+
+
+/* Remove as bolinhas de todas as listas */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    background-color: #f59f00;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+     background-color: #f59f00;
+    padding: 20px;
+    margin: 10px;
+    
+    /* Faz os itens ficarem lado a lado */
+    display: flex;
+    justify-content: center; /* Centraliza o menu na barra */
+    gap: 30px;              /* Cria o espaço entre os links */
+    list-style: none;       /* Remove as bolinhas da lista */   
+}
+
+/* Estilo do item que tem o dropdown */
+.dropdown {
+    position: relative; /* Necessário para o submenu não sair voando */
+}
+
+/* ESCONDE O SUBMENU POR PADRÃO */
+.submenu {
+    display: none; 
+    position: absolute; /* Faz ele flutuar abaixo do link */
+    background-color: #e68a00; /* Um laranja um pouco mais escuro */
+    top: 100%; /* Brota exatamente abaixo do pai */
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Alinha os itens do submenu um embaixo do outro */
+.submenu li {
+    width: 100%;
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block; /* Faz o link ocupar a linha toda da caixinha */
+}
+
+/* MOSTRA O SUBMENU QUANDO PASSA O MOUSE NO PAI (.dropdown) */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Efeito de destaque ao passar o mouse nas opções pequenas */
+.submenu li a:hover {
+    background-color: #d47a00;
+}
+
+
+/* Troque o ponto (.) por hashtag (#) */
+#depoimentos-container {
+    display: flex;           
+    justify-content: center; 
+    gap: 20px;               
+    margin-top: 50px;       
+}
+
+/* Adicionando um estilo para os depoimentos ficarem bonitos */
+#depoimentos-container div {
+    background-color: #40A13A;
+    padding: 20px;
+    border: 3px solid #1C75DB;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+}
+#secao-depoimentos {
+    display: flex;
+    flex-direction: column; /* Faz o H1 ficar em cima e os cards embaixo */
+    align-items: center;    /* Centraliza tudo horizontalmente */
+    gap: 30px;              /* Espaço entre o título e os cards */
+    margin-top: 150px;
+}

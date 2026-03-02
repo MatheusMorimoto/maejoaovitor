@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="header">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+
+        <li class="dropdown">
+            <a href="">Cadastro </a>
+            <ul class="submenu">
+                <li><a href="{{ url_for('clientes') }}">clientes</a></li>
+                <li><a href="{{ url_for('produtos') }}">produtos</a></li>
+            </ul>
+        </li>
+
+                <li class="dropdown">
+            <a href="">Produtos </a>
+            <ul class="submenu">
+                <li><a href="">Venda</a></li>
+                <li><a href="">Aluguel</a></li>
+            </ul>
+        </li>
+
+        <li><a href="">dashboard</a></li>
+
+    </div>
+
+
+    <div class="container-objetivos">
+        <div id="missao">Missão</div>
+        <div id="vissao">Visão</div>
+        <div id="valores">Valores</div>
+    </div>
+
+
+
+
+    <div id="secao-depoimentos">
+
+        <h1>Depoimentos</h1>
+        <div id="depoimentos-container">
+            <div> fulana de tal </div>
+            <div>beotrana de tal</div>
+            <div>ciclana de tal</div>
+
+        </div>
+    </div>
+</body>
+
+</html>
