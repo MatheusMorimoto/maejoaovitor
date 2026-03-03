@@ -47,3 +47,29 @@ app.run(debug=True): Inicia o servidor de desenvolvimento.
 debug=True: Ativa o modo de depuração. Isso é excelente enquanto você programa, pois:
 O servidor reinicia sozinho sempre que você salva uma alteração no código.
 Se houver um erro, ele mostra uma página detalhada no navegador explicando o que quebrou, em vez de apenas um erro genérico.
+
+ CADASTRO DE CLIENTE NO JS
+Máscara de RG Automática
+O que faz: Enquanto o usuário digita, o script coloca os pontos e o traço automaticamente (ex: 112223334 vira 11.222.333-4).
+
+Segurança: Ele remove qualquer letra digitada por engano e limita o campo a 12 caracteres.
+
+2. Filtro de Código de Barras
+O que faz: Bloqueia qualquer caractere que não seja número no campo de código de barras.
+
+Vantagem: Evita que códigos inválidos ou com letras sejam enviados para o seu banco de dados no Python.
+
+3. Trava de Estoque (Quantidade)
+O que faz: Monitora o campo de quantidade. Se o usuário tentar colocar um número negativo (ex: -5), o script dispara um alerta e volta o valor para 0.
+
+Vantagem: Impede erros graves de lógica no inventário de produtos.
+
+4. Feedback de Envio no Botão
+O que faz: No momento em que o usuário clica em "Cadastrar", o botão muda o texto para "Cadastrando...", fica meio transparente e é desativado.
+
+Vantagem: Dá certeza ao usuário de que o sistema está processando e evita cliques duplos que poderiam cadastrar o mesmo produto duas vezes.
+
+ para adicionar no githab
+git add .
+git commit -m "Adicionando JS de validacao e ajuste de layout"
+git push

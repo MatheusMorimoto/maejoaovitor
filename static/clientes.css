@@ -79,13 +79,13 @@
 .form-vertical {
     display: flex;
     flex-direction: column; /* Alinha os itens em coluna */
-    gap: 15px; /* Cria um espaço entre os campos */
+    gap: 90px; /* Cria um espaço entre os campos */
 }
 
 .campo {
     display: flex;
     flex-direction: column; /* Garante que o label fique em cima do input */
-    gap: 5px;
+    gap: 0.1px;
 }
 
 /* Estilizando os campos de texto */
@@ -114,7 +114,7 @@ input {
 }
 
 .form-action {
-    padding-top: 20px; /* Empurra o botão para baixo */
+    padding-top: 30px; /* Empurra o botão para baixo */
     display: flex;
     justify-content: center; /* Opcional: centraliza o botão */
 }

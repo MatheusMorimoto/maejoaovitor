@@ -37,40 +37,97 @@
     <form action="/salvar_cliente" method="POST">
         
         
-        <div class="campo">
-            <label>Nome:</label>
-            <input type="text" name="nome_cliente" placeholder="Digite o nome..." required>
-        </div>
+<div class="campo">
+    <label>Tipo de Pessoa:</label>
+    <select name="tipo_pessoa" required>
+        <option value="F">Física</option>
+        <option value="J">Jurídica</option>
+    </select>
+</div>
 
-        <div class="campo">
-            <label>E-mail:</label>
-            <input type="email" name="email_cliente" placeholder="exemplo@email.com" required>
-        </div>
+<div class="campo">
+    <label>Nome / Razão Social:</label>
+    <input type="text" name="nome" placeholder="Digite o nome completo..." required>
+</div>
 
+<div class="campo">
+    <label>Nome Fantasia:</label>
+    <input type="text" name="nome_fantasia" placeholder="Nome comercial (se houver)">
+</div>
 
-        <div class="campo">
-            <label>Telefone:</label>
-            <input type="tel" name="telefone_cliente" placeholder="(00) 00000-0000" required>
-        </div>
+<div class="campo">
+    <label>CPF/CNPJ:</label>
+    <input type="text" name="cpf" placeholder="000.000.000-00">
+</div>
 
-        <div class="campo">
-            <label>endereço:</label>
-            <input type="text" name="endereco_cliente" placeholder="Digite o endereço completo..." required>
-        </div>
+<div class="campo">
+    <label>CNPJ:</label>
+    <input type="text" name="cnpj" placeholder="00.000.000/0000-00">
+</div>
 
-        <div class="campo">
-            <label>RG:</label>
-            <input type="text" name="rg_cliente" placeholder="00.000.000-0" required>
-        </div>
+<div class="campo">
+    <label>RG:</label>
+    <input type="text" name="rg" placeholder="00.000.000-0">
+</div>
 
-        <div class="campo">
-            <label>cpf:</label>
-            <input type="text" name="cpf_cliente" placeholder="000.000.000-00" required>
-        </div>
+<div class="campo">
+    <label>Inscrição Estadual:</label>
+    <input type="text" name="inscricao_estadual" placeholder="Isento ou número">
+</div>
+
+<div class="campo">
+    <label>E-mail:</label>
+    <input type="email" name="email" placeholder="exemplo@email.com" required>
+</div>
+
+<div class="campo">
+    <label>Telefone:</label>
+    <input type="tel" name="telefone" placeholder="(00) 0000-0000">
+</div>
+
+<div class="campo">
+    <label>Celular:</label>
+    <input type="tel" name="celular" placeholder="(00) 90000-0000" required>
+</div>
+
+<div class="campo">
+    <label>CEP:</label>
+    <input type="text" name="cep" placeholder="00000-000" required>
+</div>
+
+<div class="campo">
+    <label>Logradouro:</label>
+    <input type="text" name="logradouro" placeholder="Rua, Avenida, etc." required>
+</div>
+
+<div class="campo">
+    <label>Número:</label>
+    <input type="text" name="numero" placeholder="Nº" required>
+</div>
+
+<div class="campo">
+    <label>Complemento:</label>
+    <input type="text" name="complemento" placeholder="Apto, Bloco, etc.">
+</div>
+
+<div class="campo">
+    <label>Bairro:</label>
+    <input type="text" name="bairro" placeholder="Digite o bairro" required>
+</div>
+
+<div class="campo">
+    <label>Cidade:</label>
+    <input type="text" name="cidade" placeholder="Digite a cidade" required>
+</div>
+
+<div class="campo">
+    <label>Estado (UF):</label>
+    <input type="text" name="estado" maxlength="2" placeholder="EX: SP" required>
+</div>
 
 
         <div class="form-action">
-        <button type="submit">Cadastrar</button>
+        <button type="submit" class="btn-enviar">Cadastrar</button>
         </div>
     </form>
 </div>
