@@ -1,0 +1,61 @@
+/* Remove a linha sublinhada padrão e define a cor branca */
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
+}
+
+
+/* Remove as bolinhas de todas as listas */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    background-color: #f59f00;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Estilo do item que tem o dropdown */
+.dropdown {
+    position: relative; /* Necessário para o submenu não sair voando */
+}
+
+/* ESCONDE O SUBMENU POR PADRÃO */
+.submenu {
+    display: none; 
+    position: absolute; /* Faz ele flutuar abaixo do link */
+    background-color: #e68a00; /* Um laranja um pouco mais escuro */
+    top: 100%; /* Brota exatamente abaixo do pai */
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Alinha os itens do submenu um embaixo do outro */
+.submenu li {
+    width: 100%;
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block; /* Faz o link ocupar a linha toda da caixinha */
+}
+
+/* MOSTRA O SUBMENU QUANDO PASSA O MOUSE NO PAI (.dropdown) */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Efeito de destaque ao passar o mouse nas opções pequenas */
+.submenu li a:hover {
+    background-color: #d47a00;
+}

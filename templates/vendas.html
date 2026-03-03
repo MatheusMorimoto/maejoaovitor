@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='produtos.css') }}">
     <title>Document</title>
 </head>
 
@@ -20,7 +20,7 @@
             </ul>
         </li>
 
-                <li class="dropdown">
+        <li class="dropdown">
             <a href="">Produtos </a>
             <ul class="submenu">
                 <li><a href="{{ url_for('vendas') }}">Venda</a></li>
@@ -31,27 +31,8 @@
         <li><a href="">dashboard</a></li>
 
     </div>
-
-
-    <div class="container-objetivos">
-        <div id="missao">Missão</div>
-        <div id="vissao">Visão</div>
-        <div id="valores">Valores</div>
-    </div>
-
-
-
-
-    <div id="secao-depoimentos">
-
-        <h1>Depoimentos</h1>
-        <div id="depoimentos-container">
-            <div> fulana de tal </div>
-            <div>beotrana de tal</div>
-            <div>ciclana de tal</div>
-
-        </div>
-    </div>
+ 
+<script src="{{ url_for('static', filename='produtos.js') }}"></script>
 </body>
 
 </html>
