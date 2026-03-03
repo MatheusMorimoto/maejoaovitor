@@ -98,5 +98,5 @@ Correção de Estrutura: Eliminamos tags <form> duplicadas que estavam quebrando
 
  para adicionar no githab
 git add .
-git commit -m "Adicionando JS de validacao e ajuste de layout"
+git commit -m "Configuração do MySQL, correção do template de vendas e rotas de cadastro"
 git push
