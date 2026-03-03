@@ -1,49 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleciona o formulário e os campos principais
     const form = document.querySelector('.form-vertical');
-    const inputRG = document.querySelector('name="rg_cliente"');
-    const inputCodigo = document.querySelector('name="codigo_barras"');
-    const inputQtd = document.querySelector('name="quantidade"');
 
-    // 1. MÁSCARA PARA RG (Formato: 00.000.000-0)
-    if (inputRG) {
-        inputRG.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, ''); // Remove letras
-            value = value.replace(/(\d{2})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1})$/, '$1-$2');
-            e.target.value = value.substring(0, 12); // Limita ao tamanho real do RG
-        });
-    }
-
-    // 2. FILTRO PARA CÓDIGO DE BARRAS (Apenas números)
-    if (inputCodigo) {
-        inputCodigo.addEventListener('input', (e) => {
-            // Impede a digitação de letras em campos numéricos
-            e.target.value = e.target.value.replace(/\D/g, ''); 
-        });
-    }
-
-    // 3. VALIDAÇÃO DE ESTOQUE (Impedir números negativos)
-    if (inputQtd) {
-        inputQtd.addEventListener('change', (e) => {
-            if (parseInt(e.target.value) < 0) {
-                alert("A quantidade em estoque não pode ser negativa!");
-                e.target.value = 0;
-            }
-        });
-    }
-
-    // 4. FEEDBACK NO BOTÃO AO ENVIAR
     if (form) {
-        form.addEventListener('submit', () => {
+        form.addEventListener('submit', async (e) => {
+            // 1. Evita o recarregamento padrão para processar a lógica
+            e.preventDefault();
+
             const btn = form.querySelector('button');
-            if (btn) {
-                btn.innerText = "Cadastrando...";
-                btn.style.opacity = "0.6";
-                btn.style.cursor = "not-allowed";
+            const tipoSelecionado = form.querySelector('select[name="tipo"]').value;
+
+            // Feedback visual no botão
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            // 2. Captura os dados do formulário
+            const formData = new FormData(form);
+
+            try {
+                // 3. Envia os dados para o seu Python (Flask)
+                const response = await fetch('/salvar_produtos', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // 4. LÓGICA DE REDIRECIONAMENTO
+                    // Se o tipo for 'venda', vai para a rota de vendas, senão aluguel
+                    if (tipoSelecionado === 'venda') {
+                        window.location.href = '/vendas'; // Ajuste para sua rota real
+                    } else {
+                        window.location.href = '/aluguel'; // Ajuste para sua rota real
+                    }
+                } else {
+                    alert("Erro ao salvar o produto.");
+                    btn.innerText = "Cadastrar Produto";
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Erro de conexão com o servidor.");
+                btn.innerText = "Cadastrar Produto";
+                btn.disabled = false;
             }
-            console.log("Dados enviados para o Flask!"); //
         });
     }
 });

@@ -69,6 +69,33 @@ O que faz: No momento em que o usuário clica em "Cadastrar", o botão muda o te
 
 Vantagem: Dá certeza ao usuário de que o sistema está processando e evita cliques duplos que poderiam cadastrar o mesmo produto duas vezes.
 
+1. Infraestrutura e Versão (Git & VS Code)
+Instalação do Git: Configuramos o "motor" do Git no seu Windows e resolvemos o erro de "comando não reconhecido" no terminal do VS Code.
+
+Conexão com GitHub: Você realizou o primeiro push com sucesso, vinculando sua pasta local ao repositório MatheusMorimoto/maejoaovitor.
+
+Fluxo de Trabalho: Definimos o "Trio de Ouro" para salvar suas alterações daqui para frente: git add ., git commit -m "mensagem" e git push.
+
+2. Evolução do Cadastro de Clientes
+Interface Inteligente: Criamos um script que alterna entre Pessoa Física e Jurídica, escondendo campos desnecessários (como CNPJ para CPF) para limpar o visual.
+
+Máscaras de Digitação: Implementamos formatação automática para CPF, CNPJ, CEP e Celular, garantindo que o usuário não digite letras onde não deve.
+
+Automação de Endereço: Adicionamos a busca automática via API ViaCEP, onde o sistema preenche Rua, Bairro e Cidade assim que o usuário digita o CEP.
+
+3. Evolução do Cadastro de Produtos
+Sincronização com Banco de Dados: Atualizamos o formulário para incluir campos técnicos que você possui no seu banco (como preco_custo, preco_venda, estoque_atual e tipo).
+
+Lógica de Destino (Venda vs. Aluguel): Criamos um JavaScript que identifica o tipo do produto e redireciona o usuário para a página correta após o cadastro.
+
+Proteção de Dados: Adicionamos travas para impedir quantidades negativas e um feedback visual no botão ("Salvando...") para evitar cadastros duplicados.
+
+4. Refinamento de Design (CSS)
+Ajuste de Espaçamento: Corrigimos o gap (espaçamento) de 90px para 15px, deixando o formulário compacto e elegante, igual às suas referências visuais.
+
+Correção de Estrutura: Eliminamos tags <form> duplicadas que estavam quebrando o envio dos dados no HTML.
+
+
  para adicionar no githab
 git add .
 git commit -m "Adicionando JS de validacao e ajuste de layout"
