@@ -1,19 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< HEAD
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='produtos.css') }}">
-    <title>Document</title>
-</head>
-
-<body>
-    <div id="header">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-
-=======
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +11,6 @@
     <!-- Header padrão -->
     <ul id="header">
         <li><a href="{{ url_for('home') }}">Home</a></li>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Cadastro </a>
             <ul class="submenu">
@@ -33,27 +18,10 @@
                 <li><a href="{{ url_for('produtos') }}">produtos</a></li>
             </ul>
         </li>
-<<<<<<< HEAD
-
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Produtos </a>
             <ul class="submenu">
                 <li><a href="{{ url_for('vendas') }}">Venda</a></li>
-<<<<<<< HEAD
-                <li><a href="">Aluguel</a></li>
-            </ul>
-        </li>
-
-        <li><a href="">dashboard</a></li>
-
-    </div>
- 
-<script src="{{ url_for('static', filename='produtos.js') }}"></script>
-</body>
-
-=======
                 <li><a href="{{ url_for('aluguel') }}">Aluguel</a></li>
             </ul>
         </li>
@@ -214,5 +182,4 @@
         }
     </script>
 </body>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 </html>

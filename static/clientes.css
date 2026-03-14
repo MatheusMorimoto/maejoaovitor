@@ -1,12 +1,21 @@
-/* Remove a linha sublinhada padrão e define a cor branca */
+/* --- Base e Reset --- */
+body {
+    background-color: #f1f3f5; /* Cinza de fundo para contraste */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding-top: 80px; /* Espaço para a navbar fixa */
+    color: #333;
+}
+
 #header li a {
     text-decoration: none;
     color: white;
-    font-family: sans-serif;
     font-weight: bold;
     transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-
 
 /* Remove as bolinhas de todas as listas */
 #header, .submenu {
@@ -16,11 +25,17 @@
 }
 
 #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: #f59f00;
     display: flex;
     justify-content: center;
     gap: 30px;
     padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 /* Estilo do item que tem o dropdown */
@@ -60,178 +75,151 @@
     background-color: #d47a00;
 }
 
-
-<<<<<<< HEAD
-/* cadastro de clientes
-
-/* Centraliza o formulário na tela */
+/* --- Card de Cadastro --- */
 .container-cadastro {
-    max-width: 400px;
+    width: 98%;
+    max-width: none;
     margin: 40px auto;
-    padding: 25px;
+    padding: 0 0 40px 0; /* Padding zero no topo para o banner encostar */
     background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-    border: 2px solid #f59f00;
-}
-
-/* O segredo para ficar um embaixo do outro */
-.form-vertical {
-    display: flex;
-    flex-direction: column; /* Alinha os itens em coluna */
-    gap: 90px; /* Cria um espaço entre os campos */
-=======
-/* --- Seção de Cadastro --- */
-.container-cadastro {
-    width: 95%;       /* Ocupa a tela toda respeitando as margens */
-    max-width: 100%;
-    margin: 40px auto;
-    padding: 35px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-    border: 1px solid #0066ff;
-    border-top: 5px solid #0066ff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
 }
 
 .container-cadastro h2 {
+    background: linear-gradient(135deg, #f59f00, #ffb733);
+    color: white;
+    margin: 0;
+    padding: 25px;
+    font-size: 24px;
     text-align: center;
-    margin-bottom: 25px;
-    color: #333;
+    border-radius: 15px 15px 0 0;
+    font-weight: bold;
+    margin-bottom: 35px;
 }
 
 .form-vertical {
+    padding: 0 35px;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espaço entre as linhas de campos */
+    gap: 20px;
 }
 
-/* Helper para alinhar campos lado a lado */
 .form-row {
     display: flex;
-    gap: 15px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .form-row .campo {
-    flex: 1; /* Faz os campos na mesma linha dividirem o espaço */
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+    flex: 1;
+    min-width: 200px;
 }
 
 .campo {
     display: flex;
-<<<<<<< HEAD
-    flex-direction: column; /* Garante que o label fique em cima do input */
-    gap: 0.1px;
-}
-
-/* Estilizando os campos de texto */
-input {
-=======
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
-/* Estilo para todos os campos de entrada */
-input, select {
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-<<<<<<< HEAD
-}
-
-/* Estilizando o botão */
-.btn-enviar {
-    background-color: #f59f00; /* O laranja do seu header */
-    
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
+label {
     font-weight: bold;
-    cursor: pointer;
+    font-size: 12px;
+    color: #000; /* Labels pretas e pequenas */
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 15px;
     transition: 0.3s;
-}
-
-.btn-enviar:hover {
-    background-color: #d47a00; /* Escurece um pouco ao passar o mouse */
-}
-
-.form-action {
-    padding-top: 30px; /* Empurra o botão para baixo */
-    display: flex;
-    justify-content: center; /* Opcional: centraliza o botão */
-=======
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Estilo do botão de ação (azul e largo) */
+input:focus, select:focus {
+    outline: none;
+    border-color: #f59f00;
+    box-shadow: 0 0 0 3px rgba(245, 159, 0, 0.1);
+}
+
 .btn-enviar {
-    background-color: #0066ff; /* Azul */
+    background-color: #007bff; /* Azul Call to Action */
     color: white;
-    padding: 15px;
+    padding: 15px 35px;
     border: none;
     border-radius: 8px;
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
+    transition: 0.3s;
+    width: 100%; /* Botão azul largo conforme solicitado */
 }
 
 .btn-enviar:hover {
-    background-color: #0052cc; /* Azul mais escuro */
+    background-color: #0069d9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
 .form-action {
-    padding-top: 15px;
+    padding: 20px 35px 0 35px;
     display: flex;
     justify-content: center;
 }
 
-/* --- Tabela de Clientes Cadastrados --- */
+/* --- Card da Tabela --- */
 .container-tabela {
-    width: 95%;       /* Ocupa a tela toda respeitando as margens */
-    max-width: 100%;
-    margin: 80px auto;
-    padding: 0 20px;
+    width: 98%;
+    max-width: none;
+    margin: 40px auto 60px auto;
+    padding: 0 0 20px 0;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
 }
 
 .container-tabela h2 {
+    background: linear-gradient(135deg, #f59f00, #ffb733);
+    color: white;
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 #tabela-clientes {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
-    border-radius: 10px;
-    overflow: hidden; /* Garante que o border-radius funcione na tabela */
-    border: 1px solid #0066ff;
-    border-top: 5px solid #0066ff;
+    background-color: white;
 }
 
 #tabela-clientes thead tr {
-    background-color: #0066ff; /* Cabeçalho azul */
+    background-color: #f59f00;
     color: white;
     text-align: left;
 }
 
 #tabela-clientes th, #tabela-clientes td {
     padding: 15px 20px;
+    border-bottom: 1px solid #f1f3f5;
 }
 
-#tabela-clientes tbody tr {
-    border-bottom: 1px solid #dddddd;
+#tabela-clientes th {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 13px;
 }
 
-/* Linhas alternadas (branca e cinza) */
-#tabela-clientes tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+/* Linhas alternadas entre branco e cinza claro */
+#tabela-clientes tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Efeito Zebra */
+}
+
+#tabela-clientes tbody tr:nth-child(odd) {
+    background-color: #ffffff;
 }

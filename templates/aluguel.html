@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Locação - Mãe João Vitor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='aluguel.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Registrar Locação</title>
+    <!-- Importação de ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <!-- Header padrão -->
-    <ul id="header">
+  <ul id="header">
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li class="dropdown">
             <a href="">Cadastro </a>
@@ -27,110 +26,82 @@
         </li>
         <li><a href="">dashboard</a></li>
     </ul>
-
-    <div class="main-container">
-        
-        <!-- 1. Interface de Nova Locação -->
+        <!-- 1. Card de Nova Locação -->
         <div class="card-locacao">
             <div class="card-header-green">
-                <i class="fa-solid fa-champagne-glasses"></i>
+                <i class="fas fa-holly-berry"></i> <!-- Ícone festivo simulando confete -->
                 <h1>Registrar Locação/Aluguel</h1>
             </div>
-            
-            <form action="" method="POST" class="form-locacao">
+
+            <form class="form-locacao">
                 <!-- Informações do Contrato -->
                 <div class="grid-geral">
                     <div class="campo">
-                        <label for="cliente">Cliente</label>
-                        <select id="cliente" name="cliente_id" required>
+                        <label>Cliente</label>
+                        <select name="cliente" required>
                             <option value="">Selecione um cliente...</option>
-                            {% for cliente in clientes %}
-                            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
-                            {% endfor %}
+                            <!-- Clientes virão do banco futuramente -->
                         </select>
                     </div>
-
                     <div class="campo">
-                        <label for="pagamento">Forma de Pagamento</label>
-                        <select id="pagamento" name="forma_pagamento">
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="Pix">Pix</option>
-                            <option value="Cartao">Cartão</option>
+                        <label>Forma de Pagamento</label>
+                        <select name="pagamento">
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="pix">PIX</option>
                         </select>
                     </div>
-
                     <div class="campo">
-                        <label for="data_inicio">Data de Início</label>
-                        <input type="date" id="data_inicio" name="data_inicio" required>
+                        <label>Data de Início</label>
+                        <input type="date" name="data_inicio" required>
                     </div>
-
                     <div class="campo">
-                        <label for="dias">Qtd. Dias</label>
-                        <input type="number" id="dias" name="dias" value="1" min="1" onchange="recalcularTotalGeral()">
+                        <label>Quantidade de Dias</label>
+                        <input type="number" name="dias" min="1" value="1">
                     </div>
-
                     <div class="campo">
-                        <label for="frete">Valor do Frete (R$)</label>
-                        <input type="number" step="0.01" id="frete" name="valor_frete" placeholder="0.00" onchange="recalcularTotalGeral()">
+                        <label>Valor do Frete (R$)</label>
+                        <input type="number" step="0.01" name="frete" placeholder="0,00">
                     </div>
                 </div>
 
                 <!-- Itens em Locação -->
                 <div class="secao-itens">
-                    <h3><i class="fa-solid fa-boxes-packing"></i> Itens em Locação</h3>
-                    
-                    <div id="lista-itens">
-                        <!-- Linha de Item Modelo -->
-                        <div class="item-row">
-                            <div class="campo item-produto">
-                                <label>Produto</label>
-                                <select name="produto_id[]" onchange="atualizarPreco(this)">
-                                    <option value="" data-preco="0">Selecione...</option>
-                                    {% for produto in produtos %}
-                                    <option value="{{ produto.id }}" data-preco="{{ produto.preco_venda }}">
-                                        {{ produto.nome }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="campo item-qtd">
-                                <label>Qtd</label>
-                                <input type="number" name="quantidade[]" value="1" min="1" onchange="recalcularTotalGeral()">
-                            </div>
-                            <div class="campo item-valor">
-                                <label>Valor Diário</label>
-                                <input type="text" class="preco-unitario" readonly value="R$ 0.00">
-                            </div>
-                            <div class="campo item-subtotal">
-                                <label>Subtotal</label>
-                                <input type="text" class="subtotal" readonly value="R$ 0.00">
-                            </div>
-                            <div class="campo item-acao">
-                                <label>&nbsp;</label>
-                                <button type="button" class="btn-remove" onclick="removerItem(this)"><i class="fa-solid fa-times"></i></button>
-                            </div>
+                    <h3><i class="fas fa-list-ul"></i> Itens em Locação</h3>
+                    <div class="item-row">
+                        <div class="campo item-produto">
+                            <label>Produto</label>
+                            <select name="produto[]">
+                                <option value="">Selecione o produto...</option>
+                            </select>
+                        </div>
+                        <div class="campo item-qtd">
+                            <label>Qtd</label>
+                            <input type="number" value="1" min="1">
+                        </div>
+                        <div class="campo item-valor">
+                            <label>Valor Diário (R$)</label>
+                            <input type="text" value="0,00" readonly>
+                        </div>
+                        <div class="campo item-subtotal">
+                            <label>Subtotal</label>
+                            <input type="text" value="0,00" readonly>
+                        </div>
+                        <div class="item-acao">
+                            <button type="button" class="btn-remove" title="Remover Item">X</button>
                         </div>
                     </div>
-
-                    <button type="button" class="btn-add-item" onclick="adicionarItem()">
-                        <i class="fa-solid fa-plus"></i> Adicionar Item
-                    </button>
+                    <button type="button" class="btn-add-item">+ Adicionar Item</button>
                 </div>
 
                 <!-- Resumo Financeiro -->
                 <div class="resumo-financeiro">
                     <h3>Resumo Financeiro</h3>
-                    <div class="total-geral">
-                        <span>Total Geral:</span>
-                        <span id="valor-total-geral">R$ 0.00</span>
-                    </div>
+                    <div class="total-geral">Total Geral: R$ 0,00</div>
                 </div>
 
-                <!-- Ação Final -->
                 <div class="form-footer">
-                    <button type="submit" class="btn-finalizar">
-                        Registrar Locação
-                    </button>
+                    <button type="submit" class="btn-finalizar">Registrar Locação</button>
                 </div>
             </form>
         </div>
@@ -138,59 +109,11 @@
         <!-- 2. Visualização de Locações -->
         <div class="container-lista-locacao">
             <div class="empty-state-locacao">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <p>Nenhuma locação registrada ainda.</p>
+                <i class="fas fa-folder-open"></i>
+                <p>Nenhuma locação registrada ainda</p>
             </div>
         </div>
-
     </div>
 
-    <script>
-        function atualizarPreco(select) {
-            const preco = select.options[select.selectedIndex].getAttribute('data-preco');
-            const row = select.closest('.item-row');
-            row.querySelector('.preco-unitario').value = 'R$ ' + parseFloat(preco).toFixed(2);
-            recalcularTotalGeral();
-        }
-
-        function recalcularTotalGeral() {
-            let totalItens = 0;
-            const dias = parseInt(document.getElementById('dias').value) || 1;
-            const frete = parseFloat(document.getElementById('frete').value) || 0;
-
-            document.querySelectorAll('.item-row').forEach(row => {
-                const qtd = row.querySelector('input[name="quantidade[]"]').value;
-                const select = row.querySelector('select');
-                const preco = select.options[select.selectedIndex].getAttribute('data-preco') || 0;
-                
-                const subtotal = qtd * preco * dias;
-                row.querySelector('.subtotal').value = 'R$ ' + subtotal.toFixed(2);
-                totalItens += subtotal;
-            });
-
-            const totalGeral = totalItens + frete;
-            document.getElementById('valor-total-geral').innerText = 'R$ ' + totalGeral.toFixed(2);
-        }
-
-        function adicionarItem() {
-            const lista = document.getElementById('lista-itens');
-            const novoItem = lista.firstElementChild.cloneNode(true);
-            novoItem.querySelector('input[name="quantidade[]"]').value = 1;
-            novoItem.querySelector('.subtotal').value = "R$ 0.00";
-            novoItem.querySelector('.preco-unitario').value = "R$ 0.00";
-            novoItem.querySelector('select').selectedIndex = 0;
-            lista.appendChild(novoItem);
-        }
-
-        function removerItem(btn) {
-            const lista = document.getElementById('lista-itens');
-            if (lista.children.length > 1) {
-                btn.closest('.item-row').remove();
-                recalcularTotalGeral();
-            } else {
-                alert("Necessário pelo menos um item.");
-            }
-        }
-    </script>
 </body>
 </html>

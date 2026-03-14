@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< HEAD
-
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='produtos.css') }}">
-<<<<<<< HEAD
-    <title>Document</title>
-</head>
-
-<body>
-    <div id="header">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-
-=======
     <!-- Adicionando Font Awesome para os ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Cadastro de Produtos</title>
@@ -25,7 +12,6 @@
     <!-- Header (consistente com as outras páginas) -->
     <ul id="header">
         <li><a href="{{ url_for('home') }}">Home</a></li>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Cadastro </a>
             <ul class="submenu">
@@ -33,75 +19,10 @@
                 <li><a href="{{ url_for('produtos') }}">produtos</a></li>
             </ul>
         </li>
-<<<<<<< HEAD
-
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Produtos </a>
             <ul class="submenu">
                 <li><a href="{{ url_for('vendas') }}">Venda</a></li>
-<<<<<<< HEAD
-                <li><a href="">Aluguel</a></li>
-            </ul>
-        </li>
-
-        <li><a href="">dashboard</a></li>
-
-    </div>
- <div class="container-cadastro">
-    <h2>Cadastro de Produto</h2>
-
-    <form action="/salvar_produtos" method="POST" class="form-vertical">
-        
-        <div class="campo">
-            <label>Nome do produto:</label>
-            <input type="text" name="nome" placeholder="Digite o nome do produto..." required>
-        </div>
-
-        <div class="campo">
-            <label>Descrição:</label>
-            <input type="text" name="descricao" placeholder="Breve descrição do item">
-        </div>
-
-        <div class="campo">
-            <label>Código de barras:</label>
-            <input type="text" name="codigo_barras" placeholder="Digite o código de barras..." required>
-        </div>
-
-        <div class="campo">
-            <label>Preço de Custo (R$):</label>
-            <input type="number" step="0.01" name="preco_custo" placeholder="0.00" required>
-        </div>
-
-        <div class="campo">
-            <label>Preço de Venda (R$):</label>
-            <input type="number" step="0.01" name="preco_venda" placeholder="0.00" required>
-        </div>
-
-        <div class="campo">
-            <label>Tipo de Produto:</label>
-            <select name="tipo">
-                <option value="venda">Venda</option>
-                <option value="locacao">Locação / Aluguel</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label>Nota Fiscal:</label>
-            <input type="text" name="nota_fiscal" placeholder="Nº da Nota Fiscal">
-        </div>
-
-        <div class="form-action">
-            <button type="submit" class="btn-enviar">Cadastrar Produto</button>
-        </div>
-    </form>
-</div>
-
-<script src="{{ url_for('static', filename='produtos.js') }}"></script>
-</body>
-
-=======
                 <li><a href="{{ url_for('aluguel') }}">Aluguel</a></li>
             </ul>
         </li>
@@ -196,5 +117,4 @@
         </div>
     </div>
 </body>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 </html>

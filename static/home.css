@@ -1,55 +1,13 @@
-<<<<<<< HEAD
-=======
 /* --- Reset e Base --- */
 body {
-    background-color: #f8f9fa; /* Fundo cinza claro para destacar os cards brancos */
+    background-color: #f4f7f6; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 /* --- Cabeçalho (Header) --- */
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
-/* Remove a linha sublinhada padrão e define a cor branca */
-#header li a {
-    text-decoration: none;
-    color: white;
-    font-family: sans-serif;
-    font-weight: bold;
-    transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
-}
-
-<<<<<<< HEAD
-/* Efeito de passar o mouse (Hover) */
-#header li a:hover {
-    opacity: 0.7; /* Ele fica levemente transparente ao passar o mouse */
-}
-/* O "Pai" que organiza a fila */
-.container-objetivos {
-    display: flex;           /* Coloca um ao lado do outro */
-    justify-content: center; /* Centraliza o grupo na página */
-    gap: 20px;              /* Cria o espaço entre as caixas (substitui o margin-left) */
-    margin-top: 150px;       /* Define a altura de todos ao mesmo tempo */
-}
-
-/* O estilo comum para as três caixas */
-#missao, #vissao, #valores {
-    background-color: #1C75DB;
-    padding: 20px;           /* Use px para um preenchimento mais estável */
-    width: 190px;
-    border: solid 6px #40A13A;
-    text-align: center;
-    font-size: 24px;
-    color: white;
-    box-sizing: border-box;  /* Garante que a borda não aumente o tamanho da caixa */
-}
-
-
-
-
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
-/* Remove as bolinhas de todas as listas */
 #header, .submenu {
     list-style: none;
     padding: 0;
@@ -62,166 +20,154 @@ body {
     justify-content: center;
     gap: 30px;
     padding: 20px;
-<<<<<<< HEAD
-     background-color: #f59f00;
-    padding: 20px;
-    margin: 10px;
-    
-    /* Faz os itens ficarem lado a lado */
-    display: flex;
-    justify-content: center; /* Centraliza o menu na barra */
-    gap: 30px;              /* Cria o espaço entre os links */
-    list-style: none;       /* Remove as bolinhas da lista */   
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Estilo do item que tem o dropdown */
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#header li a:hover {
+    color: #ffe0b2;
+}
+
 .dropdown {
-    position: relative; /* Necessário para o submenu não sair voando */
+    position: relative;
 }
 
-/* ESCONDE O SUBMENU POR PADRÃO */
 .submenu {
     display: none; 
-    position: absolute; /* Faz ele flutuar abaixo do link */
-    background-color: #e68a00; /* Um laranja um pouco mais escuro */
-    top: 100%; /* Brota exatamente abaixo do pai */
+    position: absolute;
+    background-color: #e68a00;
+    top: 100%;
     left: 0;
     min-width: 180px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 10;
+    border-radius: 0 0 8px 8px;
 }
 
-/* Alinha os itens do submenu um embaixo do outro */
 .submenu li {
     width: 100%;
 }
 
 .submenu li a {
     padding: 10px 15px;
-    display: block; /* Faz o link ocupar a linha toda da caixinha */
+    display: block;
 }
 
-/* MOSTRA O SUBMENU QUANDO PASSA O MOUSE NO PAI (.dropdown) */
 .dropdown:hover .submenu {
     display: block;
 }
 
-/* Efeito de destaque ao passar o mouse nas opções pequenas */
 .submenu li a:hover {
     background-color: #d47a00;
 }
 
-<<<<<<< HEAD
-
-/* Troque o ponto (.) por hashtag (#) */
-#depoimentos-container {
-    display: flex;           
-    justify-content: center; 
-    gap: 20px;               
-    margin-top: 50px;       
-}
-
-/* Adicionando um estilo para os depoimentos ficarem bonitos */
-#depoimentos-container div {
-    background-color: #40A13A;
-    padding: 20px;
-    border: 3px solid #1C75DB;
-    border-radius: 8px;
-    width: 200px;
-    text-align: center;
-}
-#secao-depoimentos {
-    display: flex;
-    flex-direction: column; /* Faz o H1 ficar em cima e os cards embaixo */
-    align-items: center;    /* Centraliza tudo horizontalmente */
-    gap: 30px;              /* Espaço entre o título e os cards */
-    margin-top: 150px;
-=======
 /* --- Banner Principal --- */
 #banner {
-    background-color: #d47a00; /* Roxo claro */
+    background: linear-gradient(135deg, #853DAC, #E0312D);
     color: white;
     text-align: center;
-    padding: 80px 20px;
+    padding: 100px 20px;
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 50px;
 }
 
-/* --- SEÇÃO MISSÃO, VISÃO E VALORES (CORREÇÃO AQUI) --- */
+#banner h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* --- Seção de Objetivos (Cards) --- */
 .container-objetivos {
     display: flex;
     justify-content: center;
     align-items: stretch;
-    gap: 30px;
-    margin: 80px auto;
+    gap: 25px;
+    margin: 0 auto 80px auto;
     max-width: 1200px;
     padding: 0 20px;
 }
 
-/* Estilo que cria o "formato de card" que não apareceu no seu print */
 #missao, #visao, #valores {
-    background-color: #f4f4f4 !important; /* Fundo cinza claro */
-    flex: 1;
-    max-width: 350px;
-    padding: 40px 25px;
-    
-    /* Bordas e Sombras */
-    border: 1px solid #0066ff;        /* Borda azul */
-    border-top: 5px solid #0066ff;    /* Borda azul grossa no topo */
-    border-radius: 12px;              /* Cantos arredondados */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.08); /* Sombra mais suave */
-    
+    background-color: white;
+    padding: 35px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     text-align: center;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
+    flex: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 6px solid #1C75DB; /* Destaque azul */
 }
+
+#visao { border-top-color: #40A13A; } /* Destaque verde */
+#valores { border-top-color: #f59f00; } /* Destaque laranja */
 
 #missao:hover, #visao:hover, #valores:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0, 102, 255, 0.25); /* Glow azul no hover */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-#missao h3, #visao h3, #valores h3 {
-    color: #0066ff;
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.icon {
+    font-size: 40px;
+    display: block;
     margin-bottom: 15px;
 }
 
-/* --- Seção de Depoimentos --- */
+/* --- Seção de Depoimentos (Cards) --- */
 #secao-depoimentos {
     text-align: center;
-    margin-top: 100px;
+    background-color: #fff;
+    padding: 80px 20px;
+    margin-bottom: 50px;
+}
+
+#secao-depoimentos h1 {
+    margin-bottom: 40px;
+    color: #333;
 }
 
 #depoimentos-container {
     display: flex;
     justify-content: center;
-    gap: 25px;
-    margin-top: 40px;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 #depoimentos-container div {
-    background-color: white;
-    padding: 30px 20px;
-    width: 300px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
-    border-left: 5px solid #f59f00;
-    text-align: left;
+    background-color: #f9f9f9;
+    padding: 40px 30px;
+    width: 280px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-left: 5px solid #40A13A; /* Borda verde lateral */
+    font-style: italic;
+    color: #555;
+    transition: 0.3s;
 }
 
-/* --- Banner Azul --- */
+#depoimentos-container div:hover {
+    background-color: #fff;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* --- Seção de Contato (Card Largo) --- */
 #secao-contato {
-    background-color: #0066ff;
+    background-color: #1C75DB;
     color: white;
     text-align: center;
-    padding: 60px 20px;
-    margin: 60px 10% 40px 10%;
-    border-radius: 20px;
+    padding: 80px 40px;
+    margin: 0 5% 60px 5%;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(28, 117, 219, 0.3);
 }
 
 #btn-contato {
@@ -233,6 +179,11 @@ body {
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+    margin-top: 25px;
+    transition: 0.3s;
+}
+
+#btn-contato:hover {
+    background-color: #d47a00;
+    transform: scale(1.05);
 }
