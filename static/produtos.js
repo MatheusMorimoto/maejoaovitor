@@ -1,47 +1,46 @@
+/**
+ * produtos.js
+ * Gerencia o carregamento dinâmico da tabela de produtos.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.form-vertical');
+    // --- FUNÇÃO PARA CARREGAR PRODUTOS NA TABELA ---
+    const carregarProdutos = async () => {
+        const tbody = document.querySelector('#tabela-produtos tbody');
+        
+        try {
+            const response = await fetch('/api/produtos');
+            let produtos = await response.json();
+            console.log("Dados recebidos da API:", produtos); // Para diagnóstico
 
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            // 1. Evita o recarregamento padrão para processar a lógica
-            e.preventDefault();
-
-            const btn = form.querySelector('button');
-            const tipoSelecionado = form.querySelector('select[name="tipo"]').value;
-
-            // Feedback visual no botão
-            btn.innerText = "Salvando...";
-            btn.disabled = true;
-
-            // 2. Captura os dados do formulário
-            const formData = new FormData(form);
-
-            try {
-                // 3. Envia os dados para o seu Python (Flask)
-                const response = await fetch('/salvar_produtos', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    // 4. LÓGICA DE REDIRECIONAMENTO
-                    // Se o tipo for 'venda', vai para a rota de vendas, senão aluguel
-                    if (tipoSelecionado === 'venda') {
-                        window.location.href = '/vendas'; // Ajuste para sua rota real
-                    } else {
-                        window.location.href = '/aluguel'; // Ajuste para sua rota real
-                    }
-                } else {
-                    alert("Erro ao salvar o produto.");
-                    btn.innerText = "Cadastrar Produto";
-                    btn.disabled = false;
+            // Se houver produtos e a tabela existir na tela
+            if (produtos && produtos.length > 0) {
+                // Se o Jinja2 renderizou o 'empty-state', precisamos recarregar a estrutura 
+                // da tabela. O jeito mais simples sem reescrever o HTML é recarregar se a tabela sumiu.
+                if (!tbody) {
+                    // Se há produtos mas a tabela não está no DOM (está mostrando o aviso de 'vazio'),
+                    // recarregamos a página para que o Jinja2 renderize a estrutura correta.
+                    location.reload();
+                    return; 
                 }
-            } catch (error) {
-                console.error("Erro na requisição:", error);
-                alert("Erro de conexão com o servidor.");
-                btn.innerText = "Cadastrar Produto";
-                btn.disabled = false;
+
+                tbody.innerHTML = ''; // Limpa a tabela antes de preencher
+                produtos.forEach(produto => {
+                    const row = `
+                        <tr>
+                            <td>${produto.id}</td>
+                            <td>${produto.nome}</td>
+                            <td>R$ ${parseFloat(produto.preco_venda || 0).toFixed(2)}</td>
+                            <td>${produto.tipo || '-'}</td>
+                        </tr>`;
+                    tbody.innerHTML += row;
+                });
             }
-        });
-    }
+        } catch (error) {
+            console.error('Erro ao carregar produtos:', error);
+        }
+    };
+
+    // Executa o carregamento ao abrir a página
+    carregarProdutos();
 });

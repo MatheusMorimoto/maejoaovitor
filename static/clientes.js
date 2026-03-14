@@ -1,82 +1,80 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const selectTipo = document.querySelector('select[name="tipo_pessoa"]');
-    const inputCEP = document.querySelector('input[name="cep"]');
-    
-    // Selecionando os campos que precisam de máscara
-    const inputCPF = document.querySelector('input[name="cpf"]');
-    const inputCNPJ = document.querySelector('input[name="cnpj"]');
-    const inputCelular = document.querySelector('input[name="celular"]');
-    const inputTelefone = document.querySelector('input[name="telefone"]');
+/**
+ * clientes.js
+ * Gerencia a busca de endereço automática via CEP.
+ */
 
-    // 1. LÓGICA PARA MOSTRAR/ESCONDER CAMPOS (Física vs Jurídica)
-    const toggleCampos = () => {
-        const isFisica = selectTipo.value === 'F';
+document.addEventListener('DOMContentLoaded', () => {
+    // --- FUNÇÃO PARA CARREGAR CLIENTES NA TABELA ---
+    const carregarClientes = async () => {
+        const tbody = document.querySelector('#tabela-clientes tbody');
         
-        // Se for Física, mostra CPF e esconde CNPJ/Nome Fantasia
-        inputCPF.parentElement.style.display = isFisica ? 'flex' : 'none';
-        inputCNPJ.parentElement.style.display = isFisica ? 'none' : 'flex';
-        document.querySelector('input[name="nome_fantasia"]').parentElement.style.display = isFisica ? 'none' : 'flex';
-        document.querySelector('input[name="inscricao_estadual"]').parentElement.style.display = isFisica ? 'none' : 'flex';
+        try {
+            const response = await fetch('/api/clientes');
+            const clientes = await response.json();
+
+            if (clientes && clientes.length > 0) {
+                tbody.innerHTML = ''; // Limpa a tabela antes de preencher
+                clientes.forEach(cliente => {
+                    const row = `
+                        <tr>
+                            <td>${cliente.id}</td>
+                            <td>${cliente.nome}</td>
+                            <td>${cliente.cpf || '-'}</td>
+                            <td>${cliente.rg || '-'}</td>
+                            <td>${cliente.email || '-'}</td>
+                            <td>${cliente.telefone || '-'}</td>
+                            <td>${cliente.celular || '-'}</td>
+                            <td>${cliente.cep || '-'}</td>
+                            <td>${cliente.logradouro || '-'}</td>
+                            <td>${cliente.numero || '-'}</td>
+                            <td>${cliente.complemento || '-'}</td>
+                            <td>${cliente.bairro || '-'}</td>
+                            <td>${cliente.cidade || '-'}</td>
+                            <td>${cliente.estado || '-'}</td>
+                        </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao carregar clientes:', error);
+        }
     };
 
-    selectTipo.addEventListener('change', toggleCampos);
-    toggleCampos(); // Executa ao carregar para definir o estado inicial
+    // Executa o carregamento ao abrir a página
+    carregarClientes();
 
-    // 2. MÁSCARAS DE FORMATAÇÃO
-    const aplicarMascara = (input, tipo) => {
-        input.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+    // Seleciona os campos baseados no atributo 'name' definido no main.py
+    const cepInput = document.querySelector('input[name="cep"]');
+    const logradouroInput = document.querySelector('input[name="logradouro"]');
+    const bairroInput = document.querySelector('input[name="bairro"]');
+    const cidadeInput = document.querySelector('input[name="cidade"]');
+    const estadoInput = document.querySelector('input[name="estado"]');
 
-            if (tipo === 'cpf') {
-                v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                e.target.value = v.substring(0, 14);
-            } 
-            else if (tipo === 'cnpj') {
-                v = v.replace(/^(\d{2})(\d)/, '$1.$2');
-                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-                v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
-                v = v.replace(/(\d{4})(\d)/, '$1-$2');
-                e.target.value = v.substring(0, 18);
-            }
-            else if (tipo === 'cep') {
-                v = v.replace(/(\d{5})(\d)/, '$1-$2');
-                e.target.value = v.substring(0, 9);
-            }
-            else if (tipo === 'tel') {
-                v = v.replace(/^(\d{2})(\d)/, '($1) $2');
-                v = v.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-                e.target.value = v.substring(0, 15);
+    if (cepInput) {
+        cepInput.addEventListener('blur', () => {
+            // Remove caracteres não numéricos do valor (trata o typo 'cpe')
+            const cep = cepInput.value.replace(/\D/g, '');
+
+            // Verifica se o formato é válido (8 dígitos)
+            if (cep.length === 8) {
+                // Consulta a API ViaCEP para buscar o endereço
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            // Preenche os campos automaticamente se eles existirem no HTML
+                            if (logradouroInput) logradouroInput.value = data.logradouro;
+                            if (bairroInput) bairroInput.value = data.bairro;
+                            if (cidadeInput) cidadeInput.value = data.localidade;
+                            if (estadoInput) estadoInput.value = data.uf;
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar o endereço:', error);
+                    });
             }
         });
-    };
-
-    aplicarMascara(inputCPF, 'cpf');
-    aplicarMascara(inputCNPJ, 'cnpj');
-    aplicarMascara(inputCEP, 'cep');
-    aplicarMascara(inputCelular, 'tel');
-    aplicarMascara(inputTelefone, 'tel');
-
-    // 3. BUSCA DE CEP AUTOMÁTICA
-    inputCEP.addEventListener('blur', () => {
-        let cep = inputCEP.value.replace(/\D/g, '');
-        
-        if (cep.length === 8) {
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.querySelector('input[name="logradouro"]').value = data.logradouro;
-                        document.querySelector('input[name="bairro"]').value = data.bairro;
-                        document.querySelector('input[name="cidade"]').value = data.localidade;
-                        document.querySelector('input[name="estado"]').value = data.uf;
-                        document.querySelector('input[name="numero"]').focus();
-                    } else {
-                        alert("CEP não encontrado!");
-                    }
-                })
-                .catch(() => alert("Erro ao buscar CEP."));
-        }
-    });
+    }
 });

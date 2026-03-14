@@ -16,11 +16,17 @@
 }
 
 #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: #f59f00;
     display: flex;
     justify-content: center;
     gap: 30px;
     padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 /* Estilo do item que tem o dropdown */
@@ -58,15 +64,14 @@
 /* Efeito de destaque ao passar o mouse nas opções pequenas */
 .submenu li a:hover {
     background-color: #d47a00;
-<<<<<<< HEAD
-=======
 }
 
 /* --- Layout Geral --- */
 body {
-    background-color: #f8f9fa;
+    background-color: #f1f3f5; /* Cinza de fundo conforme descrição */
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
+    padding-top: 80px; /* Espaço para a navbar fixa */
 }
 
 .main-container {
@@ -80,8 +85,8 @@ body {
 /* --- 1. Card de Nova Venda --- */
 .card-venda {
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     overflow: hidden;
     border: 1px solid #e0e0e0;
 }
@@ -109,7 +114,7 @@ body {
 .grid-geral {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
-    gap: 20px;
+    gap: 15px; /* Espaçamento de 15px conforme solicitado */
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
@@ -191,7 +196,7 @@ input, select {
 }
 
 .btn-finalizar {
-    background-color: #E0312D; /* Vermelho */
+    background-color: #007bff; /* Azul Real para ação principal */
     color: white;
     width: 100%;
     padding: 15px;
@@ -204,7 +209,8 @@ input, select {
 }
 
 .btn-finalizar:hover {
-    background-color: #c42a26;
+    background-color: #0069d9;
+    transform: translateY(-2px);
 }
 
 /* --- 2. Histórico de Vendas --- */
@@ -232,6 +238,5 @@ input, select {
 }
 
 #tabela-vendas tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternância cinza claro */
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+    background-color: #f8f9fa; /* Efeito Zebra */
 }

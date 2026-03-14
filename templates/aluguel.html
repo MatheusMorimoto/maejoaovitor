@@ -8,6 +8,7 @@
     <!-- Importação de ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<body>
   <ul id="header">
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li class="dropdown">
@@ -115,5 +116,6 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='aluguel.js') }}"></script>
 </body>
 </html>

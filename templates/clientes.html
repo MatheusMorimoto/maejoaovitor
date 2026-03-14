@@ -32,22 +32,14 @@
         <h2>Novo Cliente</h2>
         <form action="{{ url_for('salvar_cliente') }}" method="POST" class="form-vertical">
             
-            <div class="campo">
-                <label for="tipo_pessoa">Tipo de Pessoa</label>
-                <select id="tipo_pessoa" name="tipo_pessoa">
-                    <option value="Fisica">Pessoa Física</option>
-                    <option value="Juridica">Pessoa Jurídica</option>
-                </select>
-            </div>
 
             <div class="campo">
-                <label for="nome">Nome / Razão Social</label>
+                <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" required>
             </div>
 
             <div class="form-row">
                 <div class="campo"><label for="cpf">CPF</label><input type="text" id="cpf" name="cpf"></div>
-                <div class="campo"><label for="cnpj">CNPJ</label><input type="text" id="cnpj" name="cnpj"></div>
                 <div class="campo"><label for="rg">RG</label><input type="text" id="rg" name="rg"></div>
             </div>
 
@@ -89,9 +81,18 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>CPF</th>
+                    <th>RG</th>
                     <th>Email</th>
                     <th>Telefone</th>
                     <th>Celular</th>
+                    <th>CEP</th>
+                    <th>Logradouro</th>
+                    <th>Nº</th>
+                    <th>Compl.</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>UF</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,14 +100,24 @@
                 <tr>
                     <td>{{ cliente.id }}</td>
                     <td>{{ cliente.nome }}</td>
-                    <td>{{ cliente.email }}</td>
-                    <td>{{ cliente.telefone }}</td>
-                    <td>{{ cliente.celular }}</td>
+                    <td>{{ cliente.cpf or '-' }}</td>
+                    <td>{{ cliente.rg or '-' }}</td>
+                    <td>{{ cliente.email or '-' }}</td>
+                    <td>{{ cliente.telefone or '-' }}</td>
+                    <td>{{ cliente.celular or '-' }}</td>
+                    <td>{{ cliente.cep or '-' }}</td>
+                    <td>{{ cliente.logradouro or '-' }}</td>
+                    <td>{{ cliente.numero or '-' }}</td>
+                    <td>{{ cliente.complemento or '-' }}</td>
+                    <td>{{ cliente.bairro or '-' }}</td>
+                    <td>{{ cliente.cidade or '-' }}</td>
+                    <td>{{ cliente.estado or '-' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
+    <script src="{{ url_for('static', filename='clientes.js') }}"></script>
 </body>
 </html>
