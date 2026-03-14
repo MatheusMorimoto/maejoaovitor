@@ -60,6 +60,7 @@
     background-color: #d47a00;
 }
 
+<<<<<<< HEAD
 /* cadastro de produtos
 
 /* Container que cria a caixa com borda laranja (igual à imagem) */
@@ -96,12 +97,61 @@
 }
 
 /* Bloco de Label + Input */
+=======
+/* --- Estilos Gerais da Página --- */
+body {
+    background-color: #f8f9fa; /* Fundo cinza claro */
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+}
+
+.main-container {
+    width: 95%;
+    max-width: 100%;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* --- Card de Cadastro de Produto --- */
+.container-cadastro {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    overflow: hidden; /* Garante que o header não vaze */
+    border-top: 5px solid #f59f00;
+}
+
+.cadastro-header {
+    background-color: #f59f00;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.cadastro-header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 20px;
+    padding: 30px;
+}
+
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 .campo {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+<<<<<<< HEAD
 /* Estilo do Texto (Label) acima do campo */
 .campo label {
     font-size: 16px;
@@ -137,4 +187,110 @@
 
 .form-action button:hover {
     background-color: #e5e5e5;
+=======
+.campo-com-icone {
+    position: relative;
+}
+
+.campo-com-icone .icon {
+    position: absolute;
+    top: 40px;
+    left: 12px;
+    color: #888;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+input, select, textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-com-icone {
+    padding-left: 35px !important;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.form-action {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-cadastrar {
+    background-color: #f59f00;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-cadastrar:hover {
+    background-color: #e68a00;
+}
+
+/* --- Card de Visualização de Produtos --- */
+.container-lista {
+    margin-top: 50px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-top: 5px solid #853DAC; /* Roxo */
+    padding: 30px;
+}
+
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #555;
+    font-size: 18px;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 24px;
+    color: #0066ff; /* Azul */
+}
+
+/* Estilo da tabela de produtos */
+#tabela-produtos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabela-produtos th, #tabela-produtos td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#tabela-produtos thead th {
+    font-weight: 600;
+    color: #333;
+}
+
+#tabela-produtos tbody tr:hover {
+    background-color: #f9f9f9;
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 }

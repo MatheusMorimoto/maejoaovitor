@@ -7,7 +7,6 @@
     transition: 0.3s; /* Para o efeito de passar o mouse ficar suave */
 }
 
-
 /* Remove as bolinhas de todas as listas */
 #header, .submenu {
     list-style: none;
@@ -58,11 +57,9 @@
 /* Efeito de destaque ao passar o mouse nas opções pequenas */
 .submenu li a:hover {
     background-color: #d47a00;
-<<<<<<< HEAD
-=======
 }
 
-/* --- Layout Geral --- */
+/* --- Layout Geral da Página de Aluguel --- */
 body {
     background-color: #f8f9fa;
     font-family: 'Segoe UI', sans-serif;
@@ -77,8 +74,8 @@ body {
     box-sizing: border-box;
 }
 
-/* --- 1. Card de Nova Venda --- */
-.card-venda {
+/* --- 1. Card de Nova Locação --- */
+.card-locacao {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.08);
@@ -86,8 +83,8 @@ body {
     border: 1px solid #e0e0e0;
 }
 
-.card-header-red {
-    background-color: #E0312D; /* Vermelho do README */
+.card-header-green {
+    background-color: #40A13A; /* Verde do README */
     color: white;
     padding: 20px;
     display: flex;
@@ -96,19 +93,19 @@ body {
     gap: 15px;
 }
 
-.card-header-red h1 {
+.card-header-green h1 {
     margin: 0;
     font-size: 24px;
 }
 
-.form-venda {
+.form-locacao {
     padding: 30px;
 }
 
-/* Grid de Informações Gerais */
+/* Grid de Informações do Contrato */
 .grid-geral {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
     margin-bottom: 30px;
     padding-bottom: 20px;
@@ -136,7 +133,7 @@ input, select {
     box-sizing: border-box;
 }
 
-/* Itens da Venda */
+/* Itens em Locação */
 .secao-itens h3 {
     color: #333;
     margin-bottom: 15px;
@@ -148,7 +145,7 @@ input, select {
 .item-row {
     display: flex;
     gap: 15px;
-    align-items: flex-end; /* Alinha com os inputs */
+    align-items: flex-end;
     margin-bottom: 15px;
     background-color: #fcfcfc;
     padding: 10px;
@@ -183,7 +180,29 @@ input, select {
     width: 100%;
 }
 
-/* Rodapé do Formulário */
+/* Resumo Financeiro */
+.resumo-financeiro {
+    background-color: #e3f2fd; /* Azul bem claro */
+    border: 1px solid #bbdefb;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    text-align: right;
+}
+
+.resumo-financeiro h3 {
+    margin-top: 0;
+    color: #1565c0;
+    font-size: 18px;
+}
+
+.total-geral {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0d47a1;
+}
+
+/* Botão Final */
 .form-footer {
     margin-top: 30px;
     border-top: 1px solid #eee;
@@ -191,7 +210,7 @@ input, select {
 }
 
 .btn-finalizar {
-    background-color: #E0312D; /* Vermelho */
+    background-color: #40A13A; /* Verde */
     color: white;
     width: 100%;
     padding: 15px;
@@ -204,34 +223,28 @@ input, select {
 }
 
 .btn-finalizar:hover {
-    background-color: #c42a26;
+    background-color: #368a30;
 }
 
-/* --- 2. Histórico de Vendas --- */
-.container-historico {
+/* --- 2. Visualização de Locações (Empty State) --- */
+.container-lista-locacao {
     margin-top: 50px;
-}
-
-#tabela-vendas {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+    background-color: white;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-top: 5px solid #40A13A; /* Borda Verde */
+    padding: 40px;
+    text-align: center;
 }
 
-#tabela-vendas thead tr {
-    background-color: #E0312D; /* Vermelho vibrante */
-    color: white;
+.empty-state-locacao i {
+    font-size: 40px;
+    color: #ccc;
+    margin-bottom: 15px;
 }
 
-#tabela-vendas th, #tabela-vendas td {
-    padding: 15px;
-    text-align: left;
-}
-
-#tabela-vendas tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternância cinza claro */
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
+.empty-state-locacao p {
+    color: #666;
+    font-size: 18px;
+    margin: 0;
 }

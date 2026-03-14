@@ -24,11 +24,24 @@ def home():
 
 @app.route("/clientes")
 def clientes():
+<<<<<<< HEAD
     return render_template("clientes.html")
 
 @app.route("/salvar_cliente", methods=['POST'])
 def salvar_cliente():
     # 1. Captura os dados (Ajustado para bater com o seu HTML)
+=======
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) # Retorna dados como dicionário
+    cursor.execute("SELECT id, nome, email, telefone, celular FROM clientes ORDER BY id DESC")
+    lista_clientes = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("clientes.html", clientes=lista_clientes)
+
+@app.route("/salvar_cliente", methods=['POST'])
+def salvar_cliente():
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
     tipo_pessoa = request.form.get("tipo_pessoa")
     nome = request.form.get("nome")
     email = request.form.get("email")
@@ -38,6 +51,7 @@ def salvar_cliente():
     cnpj = request.form.get("cnpj")
     rg = request.form.get("rg")
     cep = request.form.get("cep")
+<<<<<<< HEAD
     cidade = request.form.get("cidade")
     estado = request.form.get("estado")
 
@@ -50,6 +64,25 @@ def salvar_cliente():
              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     
     valores = (tipo_pessoa, nome, email, telefone, celular, cpf, cnpj, rg, cep, cidade, estado)
+=======
+    logradouro = request.form.get("logradouro")
+    numero = request.form.get("numero")
+    complemento = request.form.get("complemento")
+    bairro = request.form.get("bairro")
+    cidade = request.form.get("cidade")
+    estado = request.form.get("estado")
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # ATENÇÃO: Sua tabela `clientes` no MySQL precisa ter as colunas:
+    # logradouro, numero, complemento, bairro
+    sql = """INSERT INTO clientes 
+             (tipo_pessoa, nome, email, telefone, celular, cpf, cnpj, rg, cep, logradouro, numero, complemento, bairro, cidade, estado) 
+             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    
+    valores = (tipo_pessoa, nome, email, telefone, celular, cpf, cnpj, rg, cep, logradouro, numero, complemento, bairro, cidade, estado)
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 
     try:
         cursor.execute(sql, valores)
@@ -61,7 +94,10 @@ def salvar_cliente():
         cursor.close()
         conn.close()
 
+<<<<<<< HEAD
     # 3. Redirecionamento
+=======
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
     return redirect(url_for('clientes'))
 
 # Adiciona uma rota raiz para que o acesso direto ao site carregue a home
@@ -72,17 +108,37 @@ def index():
 
 @app.route("/produtos")
 def produtos():
+<<<<<<< HEAD
     return render_template("produtos.html")
+=======
+    # Busca todos os produtos cadastrados para listar na página
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id, nome, preco_venda, tipo FROM produtos ORDER BY id DESC")
+    lista_produtos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("produtos.html", produtos=lista_produtos)
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 
 @app.route("/salvar_produtos", methods=['POST'])
 def salvar_produtos():
     # 1. Coleta os dados do formulário HTML
     nome = request.form.get("nome")
+<<<<<<< HEAD
     descricao = request.form.get("descricao")
     codigo = request.form.get("codigo_barras")
     preco_custo = request.form.get("preco_custo")
     preco_venda = request.form.get("preco_venda")
     tipo = request.form.get("tipo")
+=======
+    codigo = request.form.get("codigo_barras")
+    descricao = request.form.get("descricao")
+    preco_custo = request.form.get("preco_custo")
+    preco_venda = request.form.get("preco_venda")
+    tipo = request.form.get("tipo")
+    nota_fiscal = request.form.get("nota_fiscal")
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 
     # 2. Conecta ao MySQL
     conn = get_db_connection()
@@ -90,9 +146,15 @@ def salvar_produtos():
 
     # 3. Comando SQL para inserir (Baseado na sua estrutura image_62a4df.png)
     sql = """INSERT INTO produtos 
+<<<<<<< HEAD
              (nome, descricao, codigo_barras, preco_custo, preco_venda, tipo) 
              VALUES (%s, %s, %s, %s, %s, %s)"""
     valores = (nome, descricao, codigo, preco_custo, preco_venda, tipo)
+=======
+             (nome, codigo_barras, descricao, preco_custo, preco_venda, tipo, nota_fiscal) 
+             VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+    valores = (nome, codigo, descricao, preco_custo, preco_venda, tipo, nota_fiscal)
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 
     try:
         cursor.execute(sql, valores)
@@ -108,7 +170,41 @@ def salvar_produtos():
 
 @app.route("/vendas")
 def vendas():
+<<<<<<< HEAD
     return render_template("vendas.html")
+=======
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    # Busca clientes para o dropdown
+    cursor.execute("SELECT id, nome FROM clientes ORDER BY nome")
+    clientes = cursor.fetchall()
+    
+    # Busca produtos para o dropdown de itens (incluindo preço para o JS usar)
+    cursor.execute("SELECT id, nome, preco_venda FROM produtos ORDER BY nome")
+    produtos = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    return render_template("vendas.html", clientes=clientes, produtos=produtos)
+
+@app.route("/aluguel")
+def aluguel():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    # Busca clientes
+    cursor.execute("SELECT id, nome FROM clientes ORDER BY nome")
+    clientes = cursor.fetchall()
+    
+    # Busca produtos (filtrando por 'Aluguel' ou trazendo todos, aqui trazemos todos para garantir)
+    cursor.execute("SELECT id, nome, preco_venda FROM produtos ORDER BY nome")
+    produtos = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    return render_template("aluguel.html", clientes=clientes, produtos=produtos)
+>>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 
 if __name__ == "__main__":
     app.run(debug=True) 

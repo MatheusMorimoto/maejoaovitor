@@ -1,31 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< HEAD
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='produtos.css') }}">
-    <title>Document</title>
-</head>
-
-<body>
-    <div id="header">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-
-=======
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='vendas.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='aluguel.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Registrar Venda</title>
+    <title>Registrar Locação</title>
 </head>
 <body>
     <!-- Header padrão -->
     <ul id="header">
         <li><a href="{{ url_for('home') }}">Home</a></li>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Cadastro </a>
             <ul class="submenu">
@@ -33,27 +18,10 @@
                 <li><a href="{{ url_for('produtos') }}">produtos</a></li>
             </ul>
         </li>
-<<<<<<< HEAD
-
-=======
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
         <li class="dropdown">
             <a href="">Produtos </a>
             <ul class="submenu">
                 <li><a href="{{ url_for('vendas') }}">Venda</a></li>
-<<<<<<< HEAD
-                <li><a href="">Aluguel</a></li>
-            </ul>
-        </li>
-
-        <li><a href="">dashboard</a></li>
-
-    </div>
- 
-<script src="{{ url_for('static', filename='produtos.js') }}"></script>
-</body>
-
-=======
                 <li><a href="{{ url_for('aluguel') }}">Aluguel</a></li>
             </ul>
         </li>
@@ -62,15 +30,15 @@
 
     <div class="main-container">
         
-        <!-- 1. Interface de Nova Venda -->
-        <div class="card-venda">
-            <div class="card-header-red">
-                <i class="fa-solid fa-sack-dollar"></i>
-                <h1>Registrar Venda</h1>
+        <!-- 1. Interface de Nova Locação -->
+        <div class="card-locacao">
+            <div class="card-header-green">
+                <i class="fa-solid fa-champagne-glasses"></i>
+                <h1>Registrar Locação/Aluguel</h1>
             </div>
             
-            <form action="" method="POST" class="form-venda">
-                <!-- Informações Gerais -->
+            <form action="" method="POST" class="form-locacao">
+                <!-- Informações do Contrato -->
                 <div class="grid-geral">
                     <div class="campo">
                         <label for="cliente">Cliente</label>
@@ -86,21 +54,30 @@
                         <label for="pagamento">Forma de Pagamento</label>
                         <select id="pagamento" name="forma_pagamento">
                             <option value="Dinheiro">Dinheiro</option>
-                            <option value="Credito">Cartão de Crédito</option>
-                            <option value="Debito">Cartão de Débito</option>
                             <option value="Pix">Pix</option>
+                            <option value="Cartao">Cartão</option>
                         </select>
                     </div>
 
                     <div class="campo">
+                        <label for="data_inicio">Data de Início</label>
+                        <input type="date" id="data_inicio" name="data_inicio" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="dias">Qtd. Dias</label>
+                        <input type="number" id="dias" name="dias" value="1" min="1" onchange="recalcularTotalGeral()">
+                    </div>
+
+                    <div class="campo">
                         <label for="frete">Valor do Frete (R$)</label>
-                        <input type="number" step="0.01" id="frete" name="valor_frete" placeholder="0.00">
+                        <input type="number" step="0.01" id="frete" name="valor_frete" placeholder="0.00" onchange="recalcularTotalGeral()">
                     </div>
                 </div>
 
-                <!-- Itens da Venda -->
+                <!-- Itens em Locação -->
                 <div class="secao-itens">
-                    <h3><i class="fa-solid fa-box-open"></i> Itens da Venda</h3>
+                    <h3><i class="fa-solid fa-boxes-packing"></i> Itens em Locação</h3>
                     
                     <div id="lista-itens">
                         <!-- Linha de Item Modelo -->
@@ -118,10 +95,10 @@
                             </div>
                             <div class="campo item-qtd">
                                 <label>Qtd</label>
-                                <input type="number" name="quantidade[]" value="1" min="1" onchange="calcularSubtotal(this)">
+                                <input type="number" name="quantidade[]" value="1" min="1" onchange="recalcularTotalGeral()">
                             </div>
                             <div class="campo item-valor">
-                                <label>Valor Un.</label>
+                                <label>Valor Diário</label>
                                 <input type="text" class="preco-unitario" readonly value="R$ 0.00">
                             </div>
                             <div class="campo item-subtotal">
@@ -140,37 +117,30 @@
                     </button>
                 </div>
 
+                <!-- Resumo Financeiro -->
+                <div class="resumo-financeiro">
+                    <h3>Resumo Financeiro</h3>
+                    <div class="total-geral">
+                        <span>Total Geral:</span>
+                        <span id="valor-total-geral">R$ 0.00</span>
+                    </div>
+                </div>
+
                 <!-- Ação Final -->
                 <div class="form-footer">
                     <button type="submit" class="btn-finalizar">
-                        <i class="fa-solid fa-check"></i> Registrar Venda
+                        Registrar Locação
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- 2. Histórico de Vendas Registradas -->
-        <div class="container-historico">
-            <div class="header-tabela">
-                <h2>Histórico de Vendas</h2>
+        <!-- 2. Visualização de Locações -->
+        <div class="container-lista-locacao">
+            <div class="empty-state-locacao">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <p>Nenhuma locação registrada ainda.</p>
             </div>
-            <table id="tabela-vendas">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Data</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Exemplo de linha vazia ou preenchida pelo backend futuramente -->
-                    <tr>
-                        <td colspan="5" style="text-align:center; color: #777;">Nenhuma venda registrada hoje.</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
 
     </div>
@@ -180,23 +150,31 @@
             const preco = select.options[select.selectedIndex].getAttribute('data-preco');
             const row = select.closest('.item-row');
             row.querySelector('.preco-unitario').value = 'R$ ' + parseFloat(preco).toFixed(2);
-            calcularSubtotal(row.querySelector('input[name="quantidade[]"]'));
+            recalcularTotalGeral();
         }
 
-        function calcularSubtotal(inputQtd) {
-            const row = inputQtd.closest('.item-row');
-            const qtd = inputQtd.value;
-            const select = row.querySelector('select');
-            const preco = select.options[select.selectedIndex].getAttribute('data-preco') || 0;
-            const total = qtd * preco;
-            row.querySelector('.subtotal').value = 'R$ ' + total.toFixed(2);
+        function recalcularTotalGeral() {
+            let totalItens = 0;
+            const dias = parseInt(document.getElementById('dias').value) || 1;
+            const frete = parseFloat(document.getElementById('frete').value) || 0;
+
+            document.querySelectorAll('.item-row').forEach(row => {
+                const qtd = row.querySelector('input[name="quantidade[]"]').value;
+                const select = row.querySelector('select');
+                const preco = select.options[select.selectedIndex].getAttribute('data-preco') || 0;
+                
+                const subtotal = qtd * preco * dias;
+                row.querySelector('.subtotal').value = 'R$ ' + subtotal.toFixed(2);
+                totalItens += subtotal;
+            });
+
+            const totalGeral = totalItens + frete;
+            document.getElementById('valor-total-geral').innerText = 'R$ ' + totalGeral.toFixed(2);
         }
 
-        // Função simplificada para clonar a primeira linha (apenas visual para este exemplo)
         function adicionarItem() {
             const lista = document.getElementById('lista-itens');
             const novoItem = lista.firstElementChild.cloneNode(true);
-            // Limpar valores
             novoItem.querySelector('input[name="quantidade[]"]').value = 1;
             novoItem.querySelector('.subtotal').value = "R$ 0.00";
             novoItem.querySelector('.preco-unitario').value = "R$ 0.00";
@@ -208,11 +186,11 @@
             const lista = document.getElementById('lista-itens');
             if (lista.children.length > 1) {
                 btn.closest('.item-row').remove();
+                recalcularTotalGeral();
             } else {
-                alert("É necessário ter pelo menos um item.");
+                alert("Necessário pelo menos um item.");
             }
         }
     </script>
 </body>
->>>>>>> e30d128 (Configuração do MySQL, correção do template de vendas e rotas de cadastro)
 </html>
