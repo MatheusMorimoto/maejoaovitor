@@ -207,18 +207,25 @@ def salvar_produtos():
 
 @app.route("/vendas")
 def vendas():
-    return render_template("vendas.html")
+    if 'token' not in session:
+        return redirect(url_for('login'))
+        
+    # Busca dados para popular os selects do formulário
+    lista_clientes = sync_to_api("api/clientes", method="get")
+    lista_produtos = sync_to_api("api/produtos", method="get")
+    
+    # Sanitização básica para evitar erros no template
+    if lista_produtos:
+        for p in lista_produtos:
+            p['preco_venda'] = p.get('preco_venda') or 0.0
+
+    return render_template("vendas.html", clientes=lista_clientes or [], produtos=lista_produtos or [])
 
 @app.route("/salvar_venda", methods=['POST'])
 def salvar_venda():
-    dados_venda = {
-        "cliente_id": request.form.get("cliente"),
-        "data": request.form.get("data"),
-        "pagamento": request.form.get("pagamento"),
-        "total": request.form.get("total_venda") # Certifique-se de ter esse input no HTML
-    }
-    
-    resultado = sync_to_api("api/vendas", data=dados_venda, method="post")
+    # Agora recebe JSON do vendas.js para incluir a lista de itens
+    dados = request.get_json()
+    resultado = sync_to_api("api/vendas", data=dados, method="post")
     
     if resultado:
         return {"status": "success"}, 200
@@ -228,7 +235,7 @@ def salvar_venda():
 def salvar_aluguel():
     # Recebe os dados JSON enviados pelo aluguel.js
     dados = request.get_json()
-    resultado = sync_to_api("api/alugueis", data=dados, method="post")
+    resultado = sync_to_api("api/locacoes", data=dados, method="post")
     
     if resultado:
         return {"status": "success"}, 200

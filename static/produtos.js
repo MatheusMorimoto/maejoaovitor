@@ -24,17 +24,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     return; 
                 }
 
-                tbody.innerHTML = ''; // Limpa a tabela antes de preencher
-                produtos.forEach(produto => {
-                    const row = `
+                // Cria todas as linhas de uma vez para melhor performance (evita "reflow" constante)
+                const linhasHTML = produtos.map(produto => {
+                    // Garante que o valor seja tratado como número, vindo como string (com vírgula) ou float
+                    const valorNumerico = typeof produto.preco_venda === 'string' 
+                        ? parseFloat(produto.preco_venda.replace(',', '.')) 
+                        : parseFloat(produto.preco_venda);
+
+                    // Formata para moeda BRL
+                    const precoFormatado = (isNaN(valorNumerico) ? 0 : valorNumerico)
+                        .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                    return `
                         <tr>
                             <td>${produto.id}</td>
                             <td>${produto.nome}</td>
-                            <td>R$ ${parseFloat(produto.preco_venda || 0).toFixed(2)}</td>
+                            <td>${precoFormatado}</td>
                             <td>${produto.tipo || '-'}</td>
                         </tr>`;
-                    tbody.innerHTML += row;
-                });
+                }).join('');
+
+                tbody.innerHTML = linhasHTML;
             }
         } catch (error) {
             console.error('Erro ao carregar produtos:', error);

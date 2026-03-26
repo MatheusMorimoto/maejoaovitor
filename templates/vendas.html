@@ -37,7 +37,7 @@
                 <h1>Registrar Venda</h1>
             </div>
             
-            <form action="" method="POST" class="form-venda">
+            <form action="{{ url_for('salvar_venda') }}" method="POST" class="form-venda">
                 <!-- Informações Gerais -->
                 <div class="grid-geral">
                     <div class="campo">
@@ -48,6 +48,11 @@
                             <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="data">Data da Venda</label>
+                        <input type="date" id="data" name="data" required>
                     </div>
 
                     <div class="campo">
@@ -62,7 +67,7 @@
 
                     <div class="campo">
                         <label for="frete">Valor do Frete (R$)</label>
-                        <input type="number" step="0.01" id="frete" name="valor_frete" placeholder="0.00">
+                        <input type="text" step="0.01" id="frete" name="valor_frete" placeholder="R$ 0.00">
                     </div>
                 </div>
 
@@ -110,6 +115,11 @@
 
                 <!-- Ação Final -->
                 <div class="form-footer">
+                    <div style="margin-bottom: 15px; text-align: right; font-size: 1.2em; font-weight: bold;">
+                        Total: <span id="display-total" style="color: #E0312D;">R$ 0,00</span>
+                        <input type="hidden" name="total_venda" id="total_venda" value="0">
+                    </div>
+
                     <button type="submit" class="btn-finalizar">
                         <i class="fa-solid fa-check"></i> Registrar Venda
                     </button>
@@ -144,5 +154,6 @@
     </div>
 
 
+    <script src="{{ url_for('static', filename='vendas.js') }}"></script>
 </body>
 </html>
