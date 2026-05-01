@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Locação - Mãe Joaovitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='aluguel.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav id="navbar">
+        <ul id="header">
+            <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> HOME</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-address-card"></i> CADASTRO</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('clientes') }}">CLIENTES</a></li>
+                    <li><a href="{{ url_for('produtos') }}">PRODUTOS</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-box"></i> PRODUTOS</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('vendas') }}">VENDA</a></li>
+                    <li><a href="{{ url_for('aluguel') }}">ALUGUEL</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chart-line"></i> DASHBOARD</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> SAIR</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="card-locacao">
+            <div class="card-header-green">
+                <i class="fas fa-file-contract fa-2x"></i>
+                <h1>Nova Locação</h1>
+            </div>
+
+            <form class="form-locacao">
+                <div class="grid-geral">
+                    <div class="campo">
+                        <label>Cliente</label>
+                        <select name="cliente_id" id="cliente_id" required>
+                            <option value="">Carregando clientes...</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label>Data de Início</label>
+                        <input type="datetime-local" name="data_inicio" required>
+                    </div>
+                    <div class="campo">
+                        <label>Quantidade de Dias</label>
+                        <input type="number" id="quantidade_dias" name="dias" min="1" value="1">
+                    </div>
+                    <div class="campo">
+                        <label>Previsão de Devolução</label>
+                        <input type="datetime-local" name="data_prevista_devolucao" required>
+                    </div>
+                </div>
+
+                <div class="secao-itens">
+                    <h3><i class="fas fa-boxes"></i> Itens da Locação</h3>
+                    <div id="lista-itens">
+                        <div class="item-row">
+                            <div class="campo item-produto">
+                                <label>Produto</label>
+                                <select name="produto_id[]" required>
+                                    <option value="">Selecione um produto</option>
+                                </select>
+                            </div>
+                            <div class="campo item-qtd">
+                                <label>Qtd</label>
+                                <input type="number" name="quantidade[]" value="1" min="1">
+                            </div>
+                            <div class="campo item-valor">
+                                <label>Valor Unit.</label>
+                                <input type="text" class="preco-unitario" readonly value="R$ 0,00">
+                            </div>
+                            <div class="campo item-subtotal">
+                                <label>Subtotal</label>
+                                <input type="text" class="subtotal" readonly value="R$ 0,00">
+                            </div>
+                            <div class="campo item-acao">
+                                <button type="button" class="btn-remove" onclick="removerItem(this)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-item" onclick="adicionarItem()"><i class="fas fa-plus"></i> Adicionar Item</button>
+                </div>
+
+                <div class="resumo-financeiro">
+                    <div class="campo" style="width: 200px; float: right; margin-bottom: 10px;">
+                        <label>Frete (R$)</label>
+                        <input type="text" id="frete" name="frete" value="R$ 0,00">
+                    </div>
+                    <div style="clear: both;"></div>
+                    <h3>Total da Locação: <span class="total-geral" id="display-total">R$ 0,00</span></h3>
+                    <input type="hidden" id="total_venda" name="total_venda">
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn-finalizar">REGISTRAR LOCAÇÃO</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-lista-locacao">
+            <h3>Histórico de Locações Recentes</h3>
+            <table id="tabela-locacoes">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Início</th>
+                        <th>Devolução</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Preenchido via carregarHistoricoLocacoes() no aluguel.js -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='aluguel.js') }}"></script>
+</body>
+</html>

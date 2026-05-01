@@ -1,0 +1,240 @@
+/* --- Base e Reset --- */
+body {
+    background-color: #f1f3f5; /* Cinza de fundo para contraste */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding-top: 80px; /* Espaço para a navbar fixa */
+    color: #333;
+}
+
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 5px;
+}
+
+#header li a i {
+    margin-right: 10px;
+}
+
+/* Remove as bolinhas de todas as listas */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
+    background-color: #EF9C00; /* Laranja sólido vibrante */
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#header li a:hover {
+    filter: brightness(1.1);
+    border-bottom: 2px solid #FFFFFF;
+}
+
+/* Estilo do item que tem o dropdown */
+.dropdown {
+    position: relative;
+}
+
+/* ESCONDE O SUBMENU POR PADRÃO */
+.submenu {
+    display: none; 
+    position: absolute;
+    background-color: #e68a00;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 10; /* Garante que o submenu fique acima de outros elementos */
+    border-radius: 0 0 8px 8px;
+}
+
+.submenu li {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha divisória branca sutil */
+}
+.submenu li:last-child {
+    border-bottom: none; /* Remove a linha do último item */
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block;
+}
+.dropdown:hover .submenu {
+    display: block;
+}
+
+.submenu li a:hover {
+    background-color: #d47a00;
+}
+
+/* --- Card de Cadastro de Produto --- */
+.container-cadastro {
+    width: 98%;
+    max-width: none;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.cadastro-header {
+    background: linear-gradient(135deg, #f59f00, #ffb733); /* Banner Laranja */
+    color: white;
+    padding: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+
+.cadastro-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 35px 40px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+input, select, textarea {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #f59f00;
+    box-shadow: 0 0 0 3px rgba(245, 159, 0, 0.1);
+}
+
+.form-action {
+    padding: 0 40px 40px 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-cadastrar {
+    background-color: #007bff; /* Azul Real para destaque */
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-cadastrar:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* --- Card de Visualização de Produtos --- */
+.container-lista {
+    width: 98%;
+    max-width: none;
+    margin: 40px auto 60px auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.empty-state {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #555;
+    font-size: 18px;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 30px;
+    color: #f59f00;
+}
+
+#tabela-produtos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabela-produtos thead tr {
+    background-color: #f59f00; /* Cabeçalho Laranja */
+    color: white;
+}
+
+#tabela-produtos th, #tabela-produtos td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+#tabela-produtos th {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+#tabela-produtos tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Efeito Zebra */
+}
+
+#tabela-produtos tbody tr:hover {
+    background-color: #fff9f0;
+}

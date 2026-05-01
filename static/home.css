@@ -1,0 +1,209 @@
+/* --- Reset e Base --- */
+body {
+    background-color: #f1f3f5; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding-top: 80px; 
+    color: #333;
+}
+
+/* --- Cabeçalho (Header) --- */
+#header, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
+    background-color: #EF9C00; /* Laranja sólido vibrante */
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#header li a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Unificado com o body */
+    font-weight: bold;
+    transition: 0.3s;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 5px;
+}
+
+#header li a:hover {
+    filter: brightness(1.1);
+    border-bottom: 2px solid #FFFFFF;
+}
+#header li a i {
+    margin-right: 10px; /* Espaçamento entre ícone e texto */
+}
+
+.dropdown {
+    position: relative;
+}
+
+
+.submenu {
+    display: none; 
+    position: absolute;
+    background-color: #e68a00;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 10; /* Garante que o submenu fique acima de outros elementos */
+    border-radius: 0 0 8px 8px;
+}
+
+.submenu li {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha divisória branca sutil */
+}
+.submenu li:last-child {
+    border-bottom: none; /* Remove a linha do último item */
+}
+
+.submenu li a {
+    padding: 10px 15px;
+    display: block;
+}
+.dropdown:hover .submenu {
+    display: block;
+}
+
+.submenu li a:hover {
+    background-color: #d47a00;
+}
+
+/* --- Banner Principal --- */
+#banner {
+    background: linear-gradient(135deg, #853DAC, #E0312D);
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+}
+
+#banner h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* --- Seção de Objetivos (Cards) --- */
+.container-objetivos {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    margin: 0 auto 80px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+#missao, #visao, #valores {
+    background-color: white;
+    padding: 35px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    text-align: center;
+    flex: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 6px solid #1C75DB; /* Destaque azul */
+}
+
+#visao { border-top-color: #40A13A; } /* Destaque verde */
+#valores { border-top-color: #f59f00; } /* Destaque laranja */
+
+#missao:hover, #visao:hover, #valores:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* --- Seção de Depoimentos (Cards) --- */
+#secao-depoimentos {
+    text-align: center;
+    background-color: #fff;
+    padding: 80px 20px;
+    margin-bottom: 50px;
+}
+
+#secao-depoimentos h1 {
+    margin-bottom: 40px;
+    color: #333;
+}
+
+#depoimentos-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#depoimentos-container div {
+    background-color: #f9f9f9;
+    padding: 40px 30px;
+    width: 280px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-left: 5px solid #40A13A; /* Borda verde lateral */
+    font-style: italic;
+    color: #555;
+    transition: 0.3s;
+}
+
+#depoimentos-container div:hover {
+    background-color: #fff;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* --- Seção de Contato (Card Largo) --- */
+#secao-contato {
+    background-color: #1C75DB;
+    color: white;
+    text-align: center;
+    padding: 80px 40px;
+    margin: 0 5% 60px 5%;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(28, 117, 219, 0.3);
+}
+
+#btn-contato {
+    background-color: #f59f00;
+    color: white;
+    border: none;
+    padding: 15px 45px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: 0.3s;
+}
+
+#btn-contato:hover {
+    background-color: #d47a00;
+    transform: scale(1.05);
+}

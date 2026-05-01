@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <!-- Importação Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Home - Matheus Decorando</title>
+</head>
+
+<body>
+    <header>
+        <ul id="header">
+            <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> HOME</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-address-card"></i> CADASTRO</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('clientes') }}">CLIENTES</a></li>
+                    <li><a href="{{ url_for('produtos') }}">PRODUTOS</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-box"></i> PRODUTOS</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('vendas') }}">VENDA</a></li>
+                    <li><a href="{{ url_for('aluguel') }}">ALUGUEL</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chart-line"></i> DASHBOARD</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> SAIR</a></li>
+        </ul>
+    </header>
+
+    <main class="main-container">
+        <div id="banner">
+            <h1>Matheus Decorando</h1>
+        </div>
+
+        <div class="container-objetivos">
+            <div id="missao">
+                <span class="icon">🎯</span>
+                <h3>Missão</h3>
+                <p>Proporcionar soluções completas em decoração...</p>
+            </div>
+            <div id="visao">
+                <span class="icon">🔮</span>
+                <h3>Visão</h3>
+                <p>Ser a empresa de referência em decoração...</p>
+            </div>
+            <div id="valores">
+                <span class="icon">💎</span>
+                <h3>Valores</h3>
+                <p>Criatividade, qualidade e comprometimento...</p>
+            </div>
+        </div>
+
+        <div id="secao-depoimentos">
+            <h1>Depoimentos</h1>
+            <div id="depoimentos-container">
+                <div> fulana de tal </div>
+                <div>beotrana de tal</div>
+                <div>ciclana de tal</div>
+            </div>
+        </div>
+    </main>
+
+    <div id="secao-contato">
+        <h1>Pronto para transformar seu evento?</h1>
+        <p>Entre em contato conosco e faça seu orçamento</p>
+        <button id="btn-contato">📄 Começar Agora</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Locação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='aluguel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+   <!-- Header (consistente com as outras páginas) -->
+    <header>
+        <ul id="header">
+            <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> HOME</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-address-card"></i> CADASTRO</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('clientes') }}">CLIENTES</a></li>
+                    <li><a href="{{ url_for('produtos') }}">PRODUTOS</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-box"></i> PRODUTOS</a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('vendas') }}">VENDA</a></li>
+                    <li><a href="{{ url_for('aluguel') }}">ALUGUEL</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chart-line"></i> DASHBOARD</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> SAIR</a></li>
+        </ul>
+    </header>
+
+    <div class="main-container">
+        <div class="cards-grid">
+            <div class="summary-card">
+                <h3>Total de Vendas</h3>
+                <p id="total-vendas">0</p>
+            </div>
+            <div class="summary-card">
+                <h3>Faturamento</h3>
+                <p id="faturamento">R$ 0,00</p>
+            </div>
+            <div class="summary-card">
+                <h3>Locações Ativas</h3>
+                <p id="locacoes-ativas">0</p>
+            </div>
+            <div class="summary-card alert">
+                <h3>Alertas Auditoria</h3>
+                <p id="alertas-auditoria">0</p>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Vendas por Forma de Pagamento</h3>
+                <canvas id="chartVendasPagamento"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Status de Locações</h3>
+                <canvas id="chartStatusLocacoes"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Financeiro (Débito vs Crédito)</h3>
+                <canvas id="chartFinanceiro"></canvas>
+            </div>
+        </div>
+
+        <div class="container-lista-locacao">
+            <h3>Relatório de Auditoria de Integração</h3>
+            <table id="tabela-auditoria">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Módulo</th>
+                        <th>Evento</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
