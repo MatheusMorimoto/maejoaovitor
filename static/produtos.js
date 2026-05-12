@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <tr>
                             <td>${produto.id}</td>
                             <td>${produto.nome}</td>
+                            <td>${produto.quantidade || 0}</td>
                             <td>${precoFormatado}</td>
                             <td>${produto.tipo || '-'}</td>
                         </tr>`;

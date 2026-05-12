@@ -10,17 +10,21 @@ function formatarMoeda(valor) {
 
 // Converte string de moeda (R$ 1.000,00) para float
 function parseMoeda(valorStr) {
-    if (!valorStr || valorStr === "R$ 0,00") return 0;
+    if (valorStr === undefined || valorStr === null || valorStr === "") return 0;
     if (typeof valorStr === 'number') return valorStr;
     
     let limpo = String(valorStr)
         .replace('R$', '')
         .replace(/\s/g, '')
-        .replace(/\./g, '')
-        .replace(',', '.')
         .trim();
+
+    // Se houver vírgula, assume formato brasileiro (1.000,00) e remove pontos de milhar
+    if (limpo.includes(',')) {
+        limpo = limpo.replace(/\./g, '').replace(',', '.');
+    }
     
-    return parseFloat(limpo) || 0;
+    const parsed = parseFloat(limpo);
+    return isNaN(parsed) ? 0 : parsed;
 }
 
 /**
@@ -192,7 +196,7 @@ async function finalizarVenda(event) {
             itens.push({
                 produto_id: parseInt(produtoId),
                 quantidade: parseInt(row.querySelector('input[name="quantidade[]"]').value) || 0,
-                valor_unitario: parseMoeda(row.querySelector('.preco-unitario').value)
+                valor_unitario: parseMoeda(row.querySelector('.preco-unitario').value) || 0 // Garante que seja 0 se parseMoeda retornar null
             });
         }
     });
@@ -202,18 +206,41 @@ async function finalizarVenda(event) {
         return;
     }
 
-    // Formata a data para ISO String (Padrão aceito pela API externa para evitar Erro 500)
-    const dataISO = new Date(dataRaw + 'T12:00:00').toISOString();
+    // Conforme a especificação "Vendas mais consistentes" e o SQL (ENUM):
+    // 1. Normalizamos a forma de pagamento para os valores aceitos: dinheiro, pix, cartao, boleto.
+    // 2. Incluímos valor_total e data para garantir a integridade dos registros financeiros e estoque.
+    const freteNumerico = parseMoeda(document.getElementById('frete')?.value);
+    const freteFormatadoApi = "R$ " + freteNumerico.toFixed(2).replace('.', ',');
+    const valorTotalVenda = parseFloat(document.getElementById('total_venda')?.value) || 0;
 
-    // Monta o objeto de dados garantindo formatos aceitos pela API externa
+    const formaPagamentoRaw = (formData.get('forma_pagamento') || "").trim();
+    let formaPagamentoLimpa = formaPagamentoRaw.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos (Crédito -> credito)
+
+    // Mapeamento para o ENUM do Banco de Dados ('dinheiro','pix','cartao','boleto')
+    if (formaPagamentoLimpa === 'credito' || formaPagamentoLimpa === 'debito') {
+        formaPagamentoLimpa = 'cartao';
+    }
+
     const dados = {
         cliente_id: parseInt(formData.get('cliente_id')) || 0,
-        forma_pagamento: formData.get('forma_pagamento'),
-        frete_valor: parseFloat(parseMoeda(formData.get('valor_frete'))) || 0,
-        data: dataISO,
-        valor_total: parseFloat(formData.get('total_venda')) || 0,
+        forma_pagamento: formaPagamentoLimpa,
+        frete_valor: freteFormatadoApi,
+        valor_total: valorTotalVenda,
+        data: dataRaw,
         itens: itens
     };
+
+    // Validações antes do envio
+    if (!dados.forma_pagamento || dados.forma_pagamento.trim() === "") {
+        alert("Por favor, selecione uma forma de pagamento.");
+        return;
+    }
+    if (dados.cliente_id === 0) {
+        alert("Por favor, selecione um cliente válido para a venda.");
+        return; // Impede o envio da venda
+    }
+    console.log("Dados da venda sendo enviados para a API externa:", dados); // DEBUG: Verifique este log no console do navegador
 
     try {
         const response = await fetch('/api/vendas', {

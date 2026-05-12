@@ -17,6 +17,10 @@ def sync_to_api(endpoint, data=None, method='post', use_token=True):
     url = f"{API_BASE}/{endpoint}"
     # Debug para visualizar a URL completa e o método que está sendo enviado à API externa
     print(f"DEBUG API -> {method.upper()} {url}")
+    
+    if data:
+        print(f"DEBUG PAYLOAD -> {data}")
+
     headers = {}
     
     # Se o usuário estiver logado, envia o token no cabeçalho
@@ -274,8 +278,15 @@ def salvar_venda():
             resultado = sync_to_api("api/vendas", data=dados, method="post")
             if resultado and not resultado.get('error_api'):
                 return {"status": "success", "data": resultado}, 200
-            msg_erro = resultado.get('body') if isinstance(resultado, dict) else "Erro de conexão"
-            return {"status": "error", "message": f"Erro na API: {msg_erro}"}, 500
+            
+            # Repassa o erro exato da API externa (como o 400 de formato inválido)
+            status_code = 400 
+            msg_erro = "Erro de validação nos dados da venda."
+            if isinstance(resultado, dict):
+                status_code = resultado.get('status', 500)
+                msg_erro = resultado.get('body', "Erro interno na API")
+                
+            return {"status": "error", "message": f"Erro na API: {msg_erro}"}, status_code
         except Exception as e:
             return {"status": "error", "message": str(e)}, 400
 

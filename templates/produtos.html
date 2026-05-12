@@ -51,6 +51,11 @@
                 </div>
 
                 <div class="campo" style="grid-column: 1 / -1;">
+                    <label for="quantidade">Quantidade</label>
+                    <input type="number" id="quantidade" name="quantidade" min="0" step="1">
+                </div>
+
+                <div class="campo" style="grid-column: 1 / -1;">
                     <label for="descricao">Descrição</label>
                     <textarea id="descricao" name="descricao" rows="3"></textarea>
                 </div>
@@ -96,6 +101,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
+                            <th>Quantidade</th>
                             <th>Preço Venda</th>
                             <th>Tipo</th>
                         </tr>
@@ -105,6 +111,7 @@
                         <tr>
                             <td>{{ produto.id }}</td>
                             <td>{{ produto.nome }}</td>
+                            <td>{{ produto.quantidade }}</td>
                             <td>R$ {{ "%.2f"|format(produto.preco_venda|float) }}</td>
                             <td>{{ produto.tipo }}</td>
                         </tr>
