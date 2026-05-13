@@ -9,6 +9,25 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
         return (parseFloat(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
+    // Nova função auxiliar para converter strings financeiras (R$ 1.250,00) em números reais
+    const limparValor = (valor) => {
+        if (typeof valor === 'number') return valor;
+        if (valor === undefined || valor === null || valor === "") return 0;
+        
+        let limpo = String(valor)
+            .replace('R$', '')
+            .replace(/\s/g, '')
+            .trim();
+
+        // Só remove pontos de milhar se houver uma vírgula indicando formato brasileiro (ex: 1.250,00)
+        if (limpo.includes(',')) {
+            limpo = limpo.replace(/\./g, '').replace(',', '.');
+        }
+        
+        const parsed = parseFloat(limpo);
+        return isNaN(parsed) ? 0 : parsed;
+    };
+
     async function fetchDashboard(endpoint) {
         try {
             const res = await fetch(endpoint, { headers });
@@ -21,10 +40,10 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
     }
 
     // Refatora carregarCards para receber os dados como argumento
-    const carregarCards = (resumoVendas, resumoLocacoes, auditoria) => {
+    const carregarCards = (resumoVendas, resumoLocacoes, auditoria, saldoCaixa) => {
         if (resumoVendas && resumoVendas.resumo) {
             document.getElementById('total-vendas').innerText = resumoVendas.resumo.total_vendas || 0;
-            document.getElementById('faturamento').innerText = formatarMoeda(parseFloat(resumoVendas.resumo.faturamento_total || 0));
+            document.getElementById('faturamento').innerText = formatarMoeda(limparValor(resumoVendas.resumo.faturamento_total));
         } else {
             console.warn("Dados de resumo de vendas não disponíveis para cards.");
         }
@@ -46,28 +65,102 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
         if (!document.getElementById('alertas-auditoria').innerText) {
             document.getElementById('alertas-auditoria').innerText = '0';
         }
+
+        // Exibe o Saldo de Caixa Real se houver um elemento correspondente (ex: id="saldo-caixa")
+        const elSaldo = document.getElementById('saldo-caixa');
+        if (elSaldo && saldoCaixa) {
+            elSaldo.innerText = formatarMoeda(limparValor(saldoCaixa.saldo || saldoCaixa.total_caixa || 0));
+        }
     };
 
-    // Carrega o gráfico financeiro comparando Débito, Crédito (Vendas Totais) e Dinheiro
+    // Carrega o gráfico financeiro comparando Débito, Crédito (Vendas Totais), Dinheiro e Pix
     const carregarGraficoFinanceiro = (vendasResponse, financeiroResponse) => {
         if (!financeiroResponse || !financeiroResponse.resumo) return;
         
         const financeiroResumo = financeiroResponse.resumo;
-        const vendasItens = (vendasResponse && vendasResponse.por_forma_pagamento) ? vendasResponse.por_forma_pagamento : [];
 
-        // Localiza o valor específico de 'Dinheiro' dentro do relatório de vendas
-        const itemDinheiro = vendasItens.find(i => (i.label || i.forma_pagamento || "").toLowerCase().includes('dinheiro'));
-        const valorDinheiro = itemDinheiro ? parseFloat(itemDinheiro.valor || itemDinheiro.total || 0) : 0;
+        // Função padronizada para extrair valores de formas de pagamento específicas
+        const extrairValorPorForma = (termo, sourceArray) => {
+            if (!Array.isArray(sourceArray)) return 0;
+            // Filtra todos os itens que correspondem ao termo para somar vendas reais (evita pegar apenas o primeiro)
+            const matches = sourceArray.filter(i => 
+                (i.label || i.forma_pagamento || i.metodo || i.forma || i.origem || "").toLowerCase().includes(termo.toLowerCase())
+            );
+            return matches.reduce((acc, item) => {
+                return acc + limparValor(item.valor || item.total || item.faturamento || item.total_vendas || item.total_final || item.total_pago || 0);
+            }, 0);
+        };
 
-        // Puxa o faturamento total de todas as vendas realizadas para a coluna de Crédito
-        const faturamentoTotalVendas = (vendasResponse && vendasResponse.resumo) ? parseFloat(vendasResponse.resumo.faturamento_total || 0) : 0;
+        // Define a fonte prioritária para detalhamento para evitar duplicidade na soma manual
+        const listaDetalhamento = (financeiroResponse?.por_origem && financeiroResponse.por_origem.length > 0)
+            ? financeiroResponse.por_origem
+            : (vendasResponse?.por_forma_pagamento || []);
 
-        const labels = ['Débito', 'Crédito', 'Dinheiro'];
+        // Extração de Dinheiro e Pix baseada na estrutura estrita da API Node.js (PostgreSQL)
+        // Prioridade 1: comparacao_metodos (Objeto consolidado do backend)
+        // Prioridade 2: analise_metodo (Estatísticas detalhadas)
+        // Prioridade 3: Fallback para busca manual na lista de origens
+        const valorDinheiro = limparValor(financeiroResponse?.comparacao_metodos?.total_dinheiro) || 
+                             limparValor(financeiroResponse?.analise_dinheiro?.valor_total_dinheiro) ||
+                             limparValor(financeiroResumo?.total_vendas_dinheiro) ||
+                             extrairValorPorForma('dinheiro', listaDetalhamento);
+
+        const valorPix = limparValor(financeiroResponse?.comparacao_metodos?.total_pix) || 
+                         limparValor(financeiroResponse?.analise_pix?.valor_total_pix) ||
+                         limparValor(financeiroResumo?.total_vendas_pix) ||
+                         extrairValorPorForma('pix', listaDetalhamento);
+
+        // Puxa as vendas reais para Débito e Crédito. 
+        // Tenta buscar na lista de formas de pagamento das vendas antes de usar o resumo financeiro global.
+        const totalDebitos = extrairValorPorForma('debito', listaDetalhamento) || limparValor(financeiroResumo?.total_debitos || 0);
+
+        const totalCreditos = extrairValorPorForma('credito', listaDetalhamento) || 
+                             limparValor(financeiroResumo?.total_creditos) ||
+                             limparValor(financeiroResumo?.total_vendas) ||
+                             limparValor(vendasResponse?.resumo?.faturamento_total || 0);
+
+        // Extração de metadados de vendas para detalhamento
+        const totalFrete = limparValor(vendasResponse?.resumo?.total_frete);
+        const subtotalProdutos = limparValor(vendasResponse?.resumo?.subtotal_produtos);
+
+        const labels = ['Saídas (Débito)', 'Entradas (Crédito)', 'Dinheiro', 'PIX'];
         const dataValues = [
-            parseFloat(financeiroResumo.total_debitos || 0),
-            faturamentoTotalVendas,
-            valorDinheiro
+            totalDebitos,
+            totalCreditos,
+            valorDinheiro,
+            valorPix
         ];
+
+        // Popula a tabela de resumo financeiro para demonstração textual dos registros
+        const resumoTbody = document.querySelector('#tabela-resumo-financeiro tbody');
+        if (resumoTbody) {
+            resumoTbody.innerHTML = `
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 8px;">Saídas (Débito)</td>
+                    <td style="padding: 8px; text-align: right;">${formatarMoeda(dataValues[0])}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 8px;">Entradas (Crédito)</td>
+                    <td style="padding: 8px; text-align: right;">${formatarMoeda(dataValues[1])}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee; font-size: 0.9em; color: #666;">
+                    <td style="padding: 4px 8px 4px 20px;">└ Subtotal (Produtos)</td>
+                    <td style="padding: 4px 8px; text-align: right;">${formatarMoeda(subtotalProdutos)}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee; font-size: 0.9em; color: #666;">
+                    <td style="padding: 4px 8px 4px 20px;">└ Total em Fretes</td>
+                    <td style="padding: 4px 8px; text-align: right;">${formatarMoeda(totalFrete)}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee; color: #40A13A; font-weight: bold;">
+                    <td style="padding: 8px;">Vendas em Dinheiro</td>
+                    <td style="padding: 8px; text-align: right;">${formatarMoeda(dataValues[2])}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee; color: #1C75DB; font-weight: bold;">
+                    <td style="padding: 8px;">Vendas em PIX</td>
+                    <td style="padding: 8px; text-align: right;">${formatarMoeda(dataValues[3])}</td>
+                </tr>
+            `;
+        }
 
         const ctx = document.getElementById('chartFinanceiro').getContext('2d');
         new Chart(ctx, {
@@ -75,9 +168,9 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Financeiro (Débito, Crédito e dinheiro) (R$)',
+                    label: 'Financeiro Completo (R$)',
                     data: dataValues,
-                    backgroundColor: ['#333', '#EF9C00', '#40A13A'], // Cinza p/ Débito, Laranja p/ Crédito, Verde p/ Dinheiro
+                    backgroundColor: ['#333', '#EF9C00', '#40A13A', '#1C75DB'], // Cinza p/ Débito, Laranja p/ Crédito, Verde p/ dinheiro, Azul p/ pix
                     borderWidth: 1
                 }]
             },
@@ -85,24 +178,46 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
         });
     };
 
-    // Refatora carregarGraficoLocacoes para receber os dados como argumento
+    // Unifica a exibição de locações ativas e devolvidas para uma comparação clara e exata
     const carregarGraficoLocacoes = (response) => {
-        if (!response || !response.por_status) return; // Mantém a verificação de segurança
-        const items = response.por_status;
+        if (!response) return;
+
+        const resumo = response.resumo || {};
+        const porStatus = Array.isArray(response.por_status) ? response.por_status : [];
+
+        // Função auxiliar para buscar o valor real filtrando pelo status_id (PostgreSQL/Supabase)
+        // Conforme a API: 1=Ativa, 2=Devolvida, 3=Cancelada, 4=Atrasada
+        const extrairQtd = (idStatus, campoResumo) => {
+            const item = porStatus.find(i => (i.status_id == idStatus || i.id == idStatus));
+            if (item) {
+                return parseFloat(item.quantidade || item.total || item.valor || 0);
+            }
+            // Fallback para o resumo global caso o ID não esteja na lista detalhada
+            return limparValor(resumo[campoResumo] || resumo[`total_${campoResumo}`] || 0);
+        };
+
+        // Define rótulos fixos para garantir que as cores correspondam sempre ao status correto (Ativas vs Devolvidas)
+        const labels = ['Ativas (Locadas)', 'Devolvidas', 'Atrasadas', 'Canceladas'];
+        const dataValues = [
+            extrairQtd(1, 'ativas'),  
+            extrairQtd(2, 'devolvidas'),
+            extrairQtd(4, 'atrasadas'),
+            extrairQtd(3, 'canceladas')
+        ];
+
         const ctx = document.getElementById('chartStatusLocacoes').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: items.map(i => i.label || i.status),
+                labels: labels,
                 datasets: [{
                     label: 'Quantidade',
-                    data: items.map(i => parseFloat(i.valor || i.quantidade || 0)),
-                    backgroundColor: '#333',
-                    borderColor: '#EF9C00',
+                    data: dataValues,
+                    backgroundColor: ['#EF9C00', '#40A13A', '#dc3545', '#333'], // Laranja para Ativas, Verde para Devolvidas, Vermelho para Atrasadas
                     borderWidth: 1
                 }]
             },
-            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
         });
     };
 
@@ -132,15 +247,17 @@ document.addEventListener('DOMContentLoaded', async () => { // Torna o callback 
         resumoVendasData,
         resumoLocacoesData,
         auditoriaData,
-        financeiroData
+        financeiroData,
+        saldoCaixaData
     ] = await Promise.all([
         fetchDashboard('/api/dashboard/vendas-relatorio'),
         fetchDashboard('/api/dashboard/locacoes-relatorio'),
         fetchDashboard('/api/dashboard/auditoria-integracao'),
-        fetchDashboard('/api/dashboard/financeiro-completo')
+        fetchDashboard('/api/dashboard/financeiro-completo'),
+        fetchDashboard('/api/dashboard/saldo-caixa-real')
     ]);
 
-    carregarCards(resumoVendasData, resumoLocacoesData, auditoriaData);
+    carregarCards(resumoVendasData, resumoLocacoesData, auditoriaData, saldoCaixaData);
     carregarGraficoFinanceiro(resumoVendasData, financeiroData);
     carregarGraficoLocacoes(resumoLocacoesData);
     carregarAuditoria(auditoriaData);

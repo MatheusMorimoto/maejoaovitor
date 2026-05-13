@@ -29,14 +29,12 @@ def sync_to_api(endpoint, data=None, method='post', use_token=True):
     
     try:
         if method.lower() == 'post':
-            # Garante que envia pelo menos um objeto vazio {} se data for None, evitando erro 500 em algumas APIs
             response = requests.post(url, json=data if data is not None else {}, headers=headers, timeout=10)
         elif method.lower() == 'get':
             response = requests.get(url, params=data, headers=headers, timeout=10)
         elif method.lower() == 'put':
             response = requests.put(url, json=data if data is not None else {}, headers=headers, timeout=10)
         
-        # Adicionado 204 (No Content) que é comum em respostas de ações como 'devolver'
         if response.status_code in [200, 201, 204]:
             try:
                 return response.json()
@@ -276,7 +274,7 @@ def salvar_venda():
         try:
             dados = request.get_json()
             resultado = sync_to_api("api/vendas", data=dados, method="post")
-            if resultado and not resultado.get('error_api'):
+            if isinstance(resultado, dict) and not resultado.get('error_api'):
                 return {"status": "success", "data": resultado}, 200
             
             # Repassa o erro exato da API externa (como o 400 de formato inválido)
@@ -375,7 +373,7 @@ def renovar_locacao(id):
         return jsonify({"error": "Unauthorized"}), 401
     dados = request.get_json()
     resultado = sync_to_api(f"api/locacoes/{id}/renovar", data=dados, method="post")
-    if resultado and not (isinstance(resultado, dict) and resultado.get('error_api')):
+    if isinstance(resultado, dict) and not resultado.get('error_api'):
         return jsonify({"status": "success", "message": "Locação renovada"}), 200
     return jsonify({"status": "error", "message": "Erro ao renovar"}), 500
 
@@ -384,7 +382,7 @@ def devolver_item_locacao(id, produto_id):
     if 'token' not in session:
         return jsonify({"error": "Unauthorized"}), 401
     resultado = sync_to_api(f"api/locacoes/{id}/itens/{produto_id}/devolver", method="post")
-    if resultado is not None and not (isinstance(resultado, dict) and resultado.get('error_api')):
+    if isinstance(resultado, dict) and not resultado.get('error_api'):
         return jsonify({"status": "success", "message": "Item devolvido"}), 200
     return jsonify({"status": "error", "message": "Erro ao devolver item"}), 500
 
@@ -444,29 +442,64 @@ def get_dashboard_resumo():
 def get_vendas_relatorio():
     if 'token' not in session:
         return jsonify({"error": "Unauthorized"}), 401
-    dados = sync_to_api("api/dashboard/vendas-relatorio", method="get")
-    return jsonify(dados if dados is not None else [])
+    resultado = sync_to_api("api/dashboard/vendas-relatorio", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {"resumo": {}, "por_forma_pagamento": []})
 
 @app.route("/api/dashboard/locacoes-relatorio")
 def get_locacoes_relatorio():
     if 'token' not in session:
         return jsonify({"error": "Unauthorized"}), 401
-    dados = sync_to_api("api/dashboard/locacoes-relatorio", method="get")
-    return jsonify(dados if dados is not None else [])
+    resultado = sync_to_api("api/dashboard/locacoes-relatorio", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {"resumo": {}, "por_status": []})
 
 @app.route("/api/dashboard/financeiro-completo")
 def get_financeiro_completo():
     if 'token' not in session:
         return jsonify({"error": "Unauthorized"}), 401
-    dados = sync_to_api("api/dashboard/financeiro-completo", method="get")
-    return jsonify(dados if dados is not None else [])
+    resultado = sync_to_api("api/dashboard/financeiro-completo", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {"resumo": {}})
 
 @app.route("/api/dashboard/auditoria-integracao")
 def get_auditoria_integracao():
     if 'token' not in session:
         return jsonify({"error": "Unauthorized"}), 401
-    dados = sync_to_api("api/dashboard/auditoria-integracao", method="get")
-    return jsonify(dados if dados is not None else [])
+    resultado = sync_to_api("api/dashboard/auditoria-integracao", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {})
+
+@app.route("/api/dashboard/saldo-caixa-real")
+def get_saldo_caixa_real():
+    if 'token' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    resultado = sync_to_api("api/dashboard/saldo-caixa-real", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {})
+
+@app.route("/api/dashboard/financeiro-origens")
+def get_financeiro_origens():
+    if 'token' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    resultado = sync_to_api("api/dashboard/financeiro-origens", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else [])
+
+@app.route("/api/dashboard/produtos-relatorio")
+def get_produtos_relatorio():
+    if 'token' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    resultado = sync_to_api("api/dashboard/produtos-relatorio", method="get")
+    if isinstance(resultado, dict) and resultado.get('error_api'):
+        return jsonify(resultado), resultado.get('status', 500)
+    return jsonify(resultado if resultado is not None else {})
 
 if __name__ == "__main__":
     app.run(debug=True) 
